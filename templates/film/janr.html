@@ -1,0 +1,325 @@
+{%  extends 'base.html' %}
+{% load static %}
+{%  block title  %} {{janr.janr | title }} filmlar {% endblock %}
+
+{% block content %}
+<div class="kn-top-margin-sm">
+    &nbsp;
+</div>
+<!--breadcrumb-->
+<nav class="kn-breadcrumb-box mt-2 ">
+
+    <div class="kn-breadcrumb my-4">
+        <a class="" href="{% url 'film:home' %}">Kinomakon</a><span> >> </span>
+         <a class="" href="{% url 'film:all-films' %}" >Barcha filmlar</a><span> >> </span>
+        <a class="" >{{janr.janr | title }} filmlar</a>
+    </div>
+</nav>
+<!--end breadcrumb-->
+{% if allfilms %}
+<div class="all-film-section">
+    <div class="container-fluid mx-1 mx-md-2">
+
+         <div class="" id="filter-accordion">
+           <div class="accordion-item">
+             <div id="engsonggi" class="accordion-collapse collapse show" data-bs-parent="#filter-accordion">
+               <div class="accordion-body">
+                   <div class="film-filter row ">
+                        <a class="btn butn col-3 col-md-2 mx-2 {% if active == 'publish_time' %} film-filter-active {% endif %}" href="{% if active_type == 'kino' %}?turi=kino&order_by=publish_time{% elif active_type == 'serial' %}?turi=serial&order_by=publish_time{% elif active_type == 'multfilm' %}?turi=multfilm&order_by=publish_time{% else  %}?order_by=publish_time {% endif %}">
+                           Eng so'nggi
+                         </a>
+                        <a class="btn butn col-3 col-md-2 {% if active == 'imdb_rating' %} film-filter-active {% endif %} " href="{% if active_type == 'kino' %}?turi=kino&order_by=imdb_rating&filter=True{% elif active_type == 'serial' %}?turi=serial&order_by=imdb_rating&filter=True{% elif active_type == 'multfilm' %}?turi=multfilm&order_by=imdb_rating&filter=True{% else %}?order_by=imdb_rating&filter=True{% endif %}">
+                           Tavsiya
+                         </a>
+                        <a class="btn butn col-3 col-md-2 mx-2 {% if active == 'kinomakon_rating' %} film-filter-active {% endif %}" href="{% if active_type == 'kino' %}?turi=kino&order_by=kinomakon_rating{% elif active_type == 'serial' %}?turi=serial&order_by=kinomakon_rating{% elif active_type == 'multfilm' %}?turi=multfilm&order_by=kinomakon_rating{% else %}?order_by=kinomakon_rating{% endif %}" >
+                           Reyting*
+                         </a>
+                         <button class="card-filter-btn"type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanasExample">
+                           <i class="fa-solid fa-filter"></i>filter
+                         </button>
+                     </div>
+                     <div class="film-filter film-filter-type  my-3">
+                         <a class="btn butn  {% if active_type == 'all' %} film-filter-active {% endif %}" href="?turi=all&{% if active == 'kinomakon_rating' %}order_by=kinomakon_rating{% elif active == 'imdb_rating' %}order_by=imdb_rating&filter=True{% else %}order_by=publish_time{% endif  %}">
+                          Hammasi
+                         </a>
+                        <a class="btn butn  {% if active_type == 'kino' %} film-filter-active {% endif %}" href="?turi=kino&{% if active == 'kinomakon_rating' %}order_by=kinomakon_rating{% elif active == 'imdb_rating' %}order_by=imdb_rating&filter=True{% else %}order_by=publish_time{% endif  %}">
+                          Kinolar
+                         </a>
+                        <a class="btn butn   {% if active_type == 'multfilm' %} film-filter-active {% endif %} " href="?turi=multfilm&{% if active == 'kinomakon_rating' %}order_by=kinomakon_rating{% elif active == 'imdb_rating' %}order_by=imdb_rating&filter=True{% else %}order_by=publish_time{% endif  %}">
+                           Multfilmlar
+                         </a>
+                        <a class="btn butn   {% if active_type == 'serial' %} film-filter-active {% endif %}" href="?turi=serial&{% if active == 'kinomakon_rating' %}order_by=kinomakon_rating{% elif active == 'imdb_rating' %}order_by=imdb_rating&filter=True{% else %}order_by=publish_time{% endif  %}" >
+                          Serial va multseriallar
+                         </a>
+
+                     </div>
+                 <!--News -- All film and cartoons-->
+                 <div class="row ">
+                     {% for film in allfilms %}
+                   <!--CARD-->
+                   <a href="{{film.get_absolute_url}}" class="col-6 col-md-4 col-lg-3 col-xxl-2 my-2 cardContainer">
+                     <div class="circle-custom"></div>
+                     <div class="card">
+
+                       <div class="card-img-div">
+                         <div class="card-img-rating">
+                           <i class="fa-solid fa-star"></i>
+                           {{film.kinomakon_rating}}%
+                         </div>
+                         <img class="card-img" src="{{film.poster.url}}" alt="{{film.title}} {{film.title_2}}">
+                         <div class="card-img-text">
+                           <h6>
+                             {{film.year}}, {{film.country}}
+                           </h6>
+                           <p>
+                             {{film.type}}
+                                {{film.janr}}
+                                {% if film.janr_2%}{{film.janr_2}}{% endif %}
+                           </p>
+                         </div>
+                       </div>
+                          <div class="card-title">
+                            <h6 class="card-title-in">
+                            {{film.title}}&nbsp;{% if film.title_2 %}{{film.title_2}}{% endif %}
+                            </h6>
+                            <p class="card-title-info">
+                             {{film.type}},
+                                  {{film.janr}}
+                                  {% if film.janr_2 %},&nbsp;{{film.janr_2}}{% endif %}
+                                  {% if film.janr_3 %},&nbsp;{{film.janr_3}}{% endif %}
+                            </p>
+                          </div>
+                     </div>
+                   </a>
+                   <!--END---CARD-->
+                     {% endfor %}
+
+                 </div>
+                <!--//News-->
+                  <!---New paginator--->
+                   <style>
+
+                       .pagination-box{
+                        display: inline-block;
+                        border-radius:4px;
+                    }
+                    .pagination-box a{
+                        border: 0.5px solid #212121;
+                        text-decoration: none;
+                        color:#fff;
+                        padding:3px 10px;
+                        margin:0;
+                        font-size:1rem;
+                    }
+                    @media(max-width:768px){
+                         .film-filter-type a{font-size:0.8rem}
+                         .pagination-box-parent{
+                          display:flex;
+                          justify-content:center
+                        }
+                    @media(max-width:576px){
+                     .pagination-box a{
+                       padding:2px 9px;
+                       font-size:0.9rem;
+
+                     }
+                    }
+                    @media(max-width:350px){
+                    .pagination-box{
+                     padding:0;
+                     margin:0;
+                    }
+                     .pagination-box a{
+                       padding:1.5px 7px;
+                       font-size:0.8rem;
+                      }
+                    }
+                    .pagination-box .butn-2{
+                        border-left:none;
+                    }
+                    .padination-box .pagination-1{
+                        border-left:none;
+                    }
+                    .pagination-box .pag-active{
+                        display:inline-block;
+                        background-color: transparent;
+                        box-shadow: /*3px 3px 10px rgba(0,0,0,1),
+                            -1px -1px 6px rgba(255, 255, 255, 0.4), */
+                            inset 3px 3px 10px rgba(0,0,0,1),
+                            inset -1px -1px 6px rgba(255, 255, 255, 0.4);
+
+                        transition: all 0.2s ease-in-out ;
+                        backdrop-filter: blur(20px);
+                        color:#ffffff;
+                        text-decoration: none;
+                    }
+                    .pagination-box a:hover{
+                        background: #212121;
+                    }
+
+                   </style>
+                   <nav class="mb-5 mt-3 pagination-box-parent">
+                       <div class="blur-box pagination-box">
+                              {% if allfilms.paginator.num_pages > 1 %}
+                              <div class="col-sm-12 col-md-8 ">
+                                <ul class="pagination">
+                                  {% if allfilms.has_previous %}
+
+                                      <a data-page="1" href="{% if active == 'imdb_rating' %}?order_by=imdb_rating&filter=True&page={% else %}{% if active == 'kinomakon_rating' %}?order_by=kinomakon_rating&page={% else %}?page={% endif %}{% endif %}1&turi={{active_type}}">
+                                        &laquo;1
+                                      </a>
+                                    {% if allfilms.previous_page_number > 1 %}
+
+                                        <a  data-page="{{allfilms.previous_page_number}}"  href="{% if active == 'imdb_rating' %}?order_by=imdb_rating&filter=True&page={% else %}{% if active == 'kinomakon_rating' %}?order_by=kinomakon_rating&page={% else %}?page={% endif %}{% endif %}{{ allfilms.previous_page_number }}&turi={{active_type}}">
+                                          <i class="fa fa-angle-left"></i>
+                                        </a>
+
+                                    {% endif %}
+
+                                  {% endif %}
+
+                                  {% if allfilms.previous_page_number > 3 %}
+                                       <a  data-page="{{allfilms.number|add:'-2'}}" href="{% if active == 'imdb_rating' %}?order_by=imdb_rating&filter=True&page={% else %}{% if active == 'kinomakon_rating' %}?order_by=kinomakon_rating&page={% else %}?page={% endif %}{% endif %}{{allfilms.number|add:'-3'}}&turi={{active_type}}"> {{ allfilms.number|add:"-3" }} </a>
+                                   {% endif %}
+                                    {% if allfilms.previous_page_number > 2 %}
+                                      <a  data-page="{{allfilms.number|add:'-2'}}" href="{% if active == 'imdb_rating' %}?order_by=imdb_rating&filter=True&page={% else %}{% if active == 'kinomakon_rating' %}?order_by=kinomakon_rating&page={% else %}?page={% endif %}{% endif %}{{allfilms.number|add:'-2'}}&turi={{active_type}}"> {{ allfilms.number|add:"-2" }} </a>
+                                    {% endif %}
+                                    {% if allfilms.previous_page_number > 1 %}
+                                      <a  data-page="{{allfilms.number|add:'-1'}}" href="{% if active == 'imdb_rating' %}?order_by=imdb_rating&filter=True&page={% else %}{% if active == 'kinomakon_rating' %}?order_by=kinomakon_rating&page={% else %}?page={% endif %}{% endif %}{{allfilms.number|add:'-1'}}&turi={{active_type}}"> {{ allfilms.number|add:"-1" }} </a>
+                                  {% endif %}
+
+                                  <a class="pag-active">{{ allfilms.number }}</a>
+
+                                  {% if allfilms.paginator.num_pages > allfilms.number|add:'1'  %}
+
+                                      <a  data-page="{{allfilms.number|add:'1'}}" href="{% if active == 'imdb_rating' %}?order_by=imdb_rating&filter=True&page={% else %}{% if active == 'kinomakon_rating' %}?order_by=kinomakon_rating&page={% else %}?page={% endif %}{% endif %}{{allfilms.number|add:'1'}}&turi={{active_type}}"> {{ allfilms.number|add:"1" }} </a>
+                                    {% endif %}
+                                   {% if allfilms.paginator.num_pages > allfilms.number|add:'2'  %}
+                                      <a  data-page="{{allfilms.number|add:'2'}}" href="{% if active == 'imdb_rating' %}?order_by=imdb_rating&filter=True&page={% else %}{% if active == 'kinomakon_rating' %}?order_by=kinomakon_rating&page={% else %}?page={% endif %}{% endif %}{{allfilms.number|add:'2'}}&turi={{active_type}}"> {{ allfilms.number|add:"2" }} </a>
+                                    {% endif %}{% if allfilms.paginator.num_pages > allfilms.number|add:'3'  %}
+                                      <a  data-page="{{allfilms.number|add:'2'}}" href="{% if active == 'imdb_rating' %}?order_by=imdb_rating&filter=True&page={% else %}{% if active == 'kinomakon_rating' %}?order_by=kinomakon_rating&page={% else %}?page={% endif %}{% endif %}{{allfilms.number|add:'3'}}&turi={{active_type}}"> {{ allfilms.number|add:"3" }} </a>
+                                       {% endif %}{% if allfilms.paginator.num_pages > allfilms.number|add:'4'  %}
+                                    <a  data-page="{{allfilms.number|add:'2'}}" href="{% if active == 'imdb_rating' %}?order_by=imdb_rating&filter=True&page={% else %}{% if active == 'kinomakon_rating' %}?order_by=kinomakon_rating&page={% else %}?page={% endif %}{% endif %}{{allfilms.number|add:'4'}}&turi={{active_type}}"> {{ allfilms.number|add:"4" }} </a>
+
+                                    <a  data-page="{{allfilms.number|add:'2'}}" href="{% if active == 'imdb_rating' %}?order_by=imdb_rating&filter=True&page={% else %}{% if active == 'kinomakon_rating' %}?order_by=kinomakon_rating&page={% else %}?page={% endif %}{% endif %}{{allfilms.number|add:'5'}}&turi={{active_type}}"> {{ allfilms.number|add:"5" }} </a>
+                                  {% endif %}
+
+                                  {% if allfilms.has_next %}
+
+                                      <a  data-page="{{allfilms.next_page_number}}" href="{% if active == 'imdb_rating' %}?order_by=imdb_rating&filter=True&page={% else %}{% if active == 'kinomakon_rating' %}?order_by=kinomakon_rating&page={% else %}?page={% endif %}{% endif %}{{ allfilms.next_page_number }}&turi={{active_type}}">
+                                        <i class="fa fa-angle-right"></i>
+                                      </a>
+
+
+
+                                      <a  data-page="{{allfilms.paginator.num_pages}}" href="{% if active == 'imdb_rating' %}?order_by=imdb_rating&filter=True&page={% else %}{% if active == 'kinomakon_rating' %}?order_by=kinomakon_rating&page={% else %}?page={% endif %}{% endif %}{{allfilms.paginator.num_pages}}&turi={{active_type}}">
+                                        {{ allfilms.paginator.num_pages }}&raquo;
+                                      </a>
+
+                                  {% endif %}
+                                </ul>
+                              </div>
+                              {% endif %}
+
+                       </div>
+                   </nav>
+                   <!--END pagination-->
+               </div>
+             </div>
+           </div>
+         </div>
+    </div>
+</div>
+{% else %}
+   <style>
+       .nofilm{
+         position:relative;
+         margin:2rem;
+         margin-bottom:4rem;
+       }
+       .nofilm h6{
+        width:40%;
+        height:100%;
+        background-image:
+        linear-gradient(to right, #000, transparent, #121212) ;
+
+        position: absolute;
+        top:0;
+        left:0;
+        border-radius:10px 0 0 10px;
+        padding:3rem;
+       }
+       .nofilm h6 a{
+
+       }
+       .nofilm a img{
+        width:40%;
+        height:40%;
+        border-radius:10px;
+
+       }
+       @media(max-width:768px){.nofilm a img{width:60%}
+       .nofilm h6{
+        width:60%;
+        height:100%;
+        border-radius:10px;
+        padding:3rem;
+       }
+       }
+       @media(max-width:576px){
+        .nofilm a img{
+         width:100%;
+         border-radius:10px;
+        }
+        .nofilm h6{
+        width:100%;
+        height:100%;
+        border-radius:10px;
+        padding:2rem;
+       }
+       }
+   </style>
+ <div class="film-filter row mx-1 mx-md-2 ">
+                        <a class="btn butn col-3 col-md-2 mx-2 {% if active == 'publish_time' %} film-filter-active {% endif %}" href="{% if active_type == 'kino' %}?turi=kino&order_by=publish_time{% elif active_type == 'serial' %}?turi=serial&order_by=publish_time{% elif active_type == 'multfilm' %}?turi=multfilm&order_by=publish_time{% else  %}?order_by=publish_time {% endif %}">
+                           Eng so'nggi
+                         </a>
+                        <a class="btn butn col-3 col-md-2 {% if active == 'imdb_rating' %} film-filter-active {% endif %} " href="{% if active_type == 'kino' %}?turi=kino&order_by=imdb_rating&filter=True{% elif active_type == 'serial' %}?turi=serial&order_by=imdb_rating&filter=True{% elif active_type == 'multfilm' %}?turi=multfilm&order_by=imdb_rating&filter=True{% else %}?order_by=imdb_rating&filter=True{% endif %}">
+                           Tavsiya
+                         </a>
+                        <a class="btn butn col-3 col-md-2 mx-2 {% if active == 'kinomakon_rating' %} film-filter-active {% endif %}" href="{% if active_type == 'kino' %}?turi=kino&order_by=kinomakon_rating{% elif active_type == 'serial' %}?turi=serial&order_by=kinomakon_rating{% elif active_type == 'multfilm' %}?turi=multfilm&order_by=kinomakon_rating{% else %}?order_by=kinomakon_rating{% endif %}" >
+                           Reyting*
+                         </a>
+                         <button class="card-filter-btn"type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanasExample">
+                           <i class="fa-solid fa-filter"></i>filter
+                         </button>
+                     </div>
+<div class="film-filter film-filter-type mx-1 mx-md-2  my-3">
+                         <a class="btn butn  {% if active_type == 'all' %} film-filter-active {% endif %}" href="?turi=all&{% if active == 'kinomakon_rating' %}order_by=kinomakon_rating{% elif active == 'imdb_rating' %}order_by=imdb_rating&filter=True{% else %}order_by=publish_time{% endif  %}">
+                          Hammasi
+                         </a>
+                        <a class="btn butn  {% if active_type == 'kino' %} film-filter-active {% endif %}" href="?turi=kino&{% if active == 'kinomakon_rating' %}order_by=kinomakon_rating{% elif active == 'imdb_rating' %}order_by=imdb_rating&filter=True{% else %}order_by=publish_time{% endif  %}">
+                          Kinolar
+                         </a>
+                        <a class="btn butn   {% if active_type == 'multfilm' %} film-filter-active {% endif %} " href="?turi=multfilm&{% if active == 'kinomakon_rating' %}order_by=kinomakon_rating{% elif active == 'imdb_rating' %}order_by=imdb_rating&filter=True{% else %}order_by=publish_time{% endif  %}">
+                           Multfilmlar
+                         </a>
+                        <a class="btn butn   {% if active_type == 'serial' %} film-filter-active {% endif %}" href="?turi=serial&{% if active == 'kinomakon_rating' %}order_by=kinomakon_rating{% elif active == 'imdb_rating' %}order_by=imdb_rating&filter=True{% else %}order_by=publish_time{% endif  %}" >
+                          Serial va multseriallar
+                         </a>
+
+                     </div>
+<div class=" nofilm">
+    <h6 class="">  Film topilmadi...  <a href="{% url 'film:home' %} " class="butn-2 butn-2-hover px-2 py-1" >Bosh sahifaga qaytish</a></h6>
+    <a href="{% url 'film:home' %}">
+        <img src="{% static 'media/film-no-photo.jpg' %}">
+    </a>
+</div>
+
+{% endif %}
+<div class="all-link mt-2 mb-3" style="display:flex;justify-content:center;">
+      <a href="{% url 'film:all-films' %}" class="butn px-2 py-1 px-md-4 ">
+          Barcha filmlar*
+      </a>
+</div>
+
+{% endblock %}

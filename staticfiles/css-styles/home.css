@@ -1,0 +1,172 @@
+/*Carousel styles*/
+.carousel-item{
+    overflow: hidden;
+    height:28rem;
+}
+
+
+.carousel-caption{
+    z-index:10;
+}
+.carousel-h5{
+    z-index:11;
+    font-weight:900;
+}
+
+
+/*------------film section styles---------*/
+
+/*CARD STYLES*/
+  .cardContainer{
+    position: relative;
+    text-decoration: none;
+    color:#ffffff;
+  }
+
+
+  .card-img-div{
+    width:97%;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    height:90%;
+  }
+  .card-img{
+    min-height:100%;
+    transition: all 0.3s ease-in-out;
+  }
+  .card-img-rating{
+    color:#ffff3f;
+    position: relative;
+    font-family:cursive;
+    font-size:0.8rem;
+    background: rgba(255,255,255,.05);
+    box-shadow: 0 0 10px rgba(0,0,0,0.25);
+    padding-left:0.5rem;
+    padding-right:0.5rem;
+    backdrop-filter: blur(15px);
+    position: absolute;
+    right:0;
+    width:4rem;
+    top:1rem;
+    transition: all 0.3s ease-in-out;
+    border-radius:8px 0 0 8px;
+
+  }
+  @media(max-width:576px){
+    .card-img-rating{
+      font-size:0.6rem;
+      border-radius:5px 0 0 5px;
+      padding-left:0.3rem;
+      padding-right:0.3rem;
+    }
+  }
+  .card-img-div:hover .card-img-rating{
+    color:#ff3cac;
+    
+  }
+  .card-img-text{
+    position: relative;
+    top:-3rem;
+    margin-left:0.4rem;
+    color:white;
+    opacity:0;
+    transition: all 0.2s ease-in-out;
+    
+  }
+  .card-img-text h6,
+  .card-img-text p {
+    padding:0;
+    margin:0;
+  }
+
+.card-img-div:hover .card-img{
+    opacity: 0.2;
+    transform: scale(1.1);
+}
+.card-img-div:hover .card-img-text{
+    opacity: 1;
+  }
+
+.card-title{
+    margin:0;
+    padding:0;
+}
+.card-title h6,
+.card-title p{
+    padding:0;
+    margin:0;
+    transition: all 0.3s ease-in-out;
+}
+.card-title .card-title-in{
+    color: #fff;
+}
+.card-title .card-title-info{
+    color: #d6d3d3;
+}
+.card-title:hover h6{
+    color: #784ba0;
+    transform: scale(1.03);
+}
+@media(max-width:576px){
+    .card-title .card-title-info{
+        font-size:0.6rem;
+       }
+       .card-title .card-title-in{
+        font-size:0.8rem;
+       }
+}
+  /*--------*/
+  .card:hover .circle-custom {
+    animation-play-state: paused;
+  }
+
+  .film-down-link{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+
+  /*New add*/
+  
+  .filter-btn-active{
+    position:relative;
+    top:-1rem;
+    display:inline-block;
+    width:190px;
+    height:5px;
+  }
+  .fba-color{
+    border-radius:0 0 10px 10px;
+    box-shadow:0 20px 50px rgba(91, 9, 173, 0.5);
+    background-color: #ff3cac;
+    background-image: linear-gradient(225deg, #ff3cac 0%, #784ba0 50%, #2b86c5 100%);
+  }
+
+
+  /*CARD offcanvas link -- filter btn*/
+  .card-filter-btn{
+    position:absolute;
+    right:2rem;
+    background: none;
+    width:3rem;
+    font-size:0.8rem;
+    color:white;
+    border:none;
+  }
+  @media(max-width:567px){
+    .card-filter-btn{
+      right:0;
+      font-size:8px;
+    }
+  }
+
+  .film-filter-active{
+             background: linear-gradient(225deg, #ff3cac 0%, #784ba0 50%, #2b86c5 100%);
+             backdrop-filter:blur(20px);
+         }
+  .film-filter-active:hover{
+          background: linear-gradient(225deg, #ff3cac 0%, #784ba0 50%, #2b86c5 100%);
+          color:white;
+         }

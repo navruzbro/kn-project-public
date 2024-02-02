@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{% if user.is_superuser %}
+Admin sahifasi - Kinomakon
+{% else %}
+Sahifa topilmadi - Kinomakon
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<style>
+    .admin-top{}
+     .admin-users{
+     margin-top:0.2rem;
+       margin-left:1rem;
+       margin-right:0.1rem;
+     }
+    .admin-users div{
+      padding:0.5rem;
+      border:2px solid black;
+    }
+</style>
+{% if user.is_superuser %}
+
+<div class="kn-top-margin">
+
+</div>
+<div class="container-fluid">
+    <div class="mx-1 mx-md-3 p-1 p-md-2">
+        <div class="admin-top blur-box">
+            <h6 style="text-align:center">Assalomu Akeykum NavruzBRO</h6>
+            <div class="">
+                <a class="butn-4 py-1 px-2 m-1" href="{% url 'film:home' %}">
+                    Bosh sahifa
+                </a>
+                <a class="butn-4 py-1 px-2 m-1" href="/admin-advanced/">
+                    Main Admin panel
+                </a>
+                <a href="/admin-advanced/film/filmmodel/add/" class="butn-4 py-1 px-2 m-1" >
+                    Add film
+                </a>
+                <a href="/admin-advanced/film/filmmodel/add/" class="butn-4 py-1 px-2 m-1" >
+                    Add FilmNews
+                </a>
+                <a href="{% url 'film:allusers' %}" class="butn-4 py-1 px-2 m-1">
+                    All Users
+                </a>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <!---->
+                    <div class="" style="text-align:center;">All Strong Admins</div>
+                    <div class="row admin-users">
+                        {% for userad in admin_users %}
+                        <div class="col-4">
+                            {{userad.username | title}}
+                        </div>
+                        <div class="col-4">
+                            {{userad.first_name | title }}
+                        </div>
+                        <div class="col-4">
+                            {{userad.email | title }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <!---->
+                    <h5 style="text-align:center">
+                        All Feedbacks for You
+                    </h5>
+                    {% for feedback in feedbacks %}
+                        <div class="col-12 py-2 px-2 px-md-5 m-2" style="border:1px solid black; " >
+                            <p class="kn-text-small">Username: <b>{{ feedback.user.username | title }}</b>  First name: <b>{{ feedback.user.first_name | title }}</b></p>
+                            <span>
+                                {{ feedback.title }}
+                            </span>
+                            <span class="kn-text-small">
+                                <i>{{ feedback.body }}</i>
+                            </span>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<style>
+    $bg: #313942;
+$ghost: #528cce;
+$heading: #e7ebf2;
+
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: $bg;
+  font-family: 'Montserrat', sans-serif;
+}
+
+main {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 70vh;
+  justify-content: center;
+  text-align: center;
+}
+
+h1 {
+  color: $heading;
+  font-size: 12.5rem;
+  letter-spacing: .10em;
+  margin: .025em 0;
+  text-shadow: .05em .05em 0 rgba(0,0,0,.25);
+  white-space: nowrap;
+
+  @media(max-width: 30rem) {
+    font-size: 8.5rem;
+  }
+
+  & > span {
+    animation: spooky 2s alternate infinite linear;
+    color: $ghost;
+    display: inline-block;
+  }
+}
+
+h2 {
+  color: $heading;
+  margin-bottom: .40em;
+}
+
+p {
+  color: #ccc;
+  margin-top: 0;
+}
+
+@keyframes spooky {
+  from {
+    transform: translatey(.15em) scaley(.95);
+  }
+
+  to {
+    transform: translatey(-.15em);
+  }
+    }
+</style>
+<!------END NAVBAR----->
+<main>
+    <h1>4<span><i class="fas fa-ghost"></i></span>4</h1>
+    <h2>Xatolik: 404 Sahifa topilmadi</h2>
+    <p>Bosh sahifaga qayting! <a href="{% url 'film:home' %}" class="p-2 butn-2">Bosh sahifa</a> </p>
+</main>
+
+<div class="kn-top-margin">
+
+</div>
+{% endif %}
+{% endblock content %}

@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}DMCA - copyright holders | Kinomakon{% endblock %}
+
+
+{% block content %}
+    <div class="kn-top-margin-sm">
+        
+     </div>
+    <!-------END__NAVBAR---------->
+     
+    <div class="mb-3 mx-4 dmca" style="z-index:20">
+        <nav class="kn-breadcrumb-box">
+           
+            <div class="kn-breadcrumb">
+                <a class="" href="{% url 'film:home' %}">Kinomakon</a><span> >> </span>
+                
+                <a class="" href="#">Right holder | DMCA</a>
+            </div>
+        </nav>
+
+        <div class="blur-box mx-1 mx-lg-4 my-4 px-1 px-lg-4 py-3">
+            <h4>RIGHT HOLDER</h4>
+            <a href="{% url 'film:dmcaru' %}" class="fs-5 kn-text-link monospace">Russian version is here!</a>
+            <p class="z-index-10 kn-text kn-text-smaller " >
+                        <br>
+                        All content posted on the site is a material that is freely available for viewing and downloading on the Internet. Collection of materials available on the Internet and their placement in the catalog is carried out automatically. The site administration in this case does not exercise control over the added content.
+                        <br><br>
+                        The site administration also does not carry out activities related to the publication of unlicensed content that has been illegally stolen and protected by copyright holders. Automated system publishes only publicly available material from open sources.
+
+                        <br><br><b>The resource is always open for cooperation with copyright holders.</b> If your exclusive rights to copyright objects are violated in any way using this resource (placement of information protected by copyright), the administration is ready to assist you and remove relevant materials from the site.
+
+                        <br><br>In the event of a dispute, we ask you to send us a letter in electronic form, where you must specify the following:
+
+                        <br><br>1. Documentary evidence of your rights to copyrighted material:
+                        <li class="kn-text-secondary kn-text-smaller-in"> scanned document stamped or</li>
+                        <li class="kn-text-secondary kn-text-smaller-in">email from the official mail domain of the company owner, or</li>
+                        <li class="kn-text-secondary kn-text-smaller-in">other information that allows you to uniquely identify you as the copyright holder of this material.</li>
+                        <br>2. Direct links to website pages that contain data published in violation of copyright
+
+                        <br><br>If we receive a letter containing this confirmation, we will remove copyrighted content from the site within 48 hours. Or, at your request, we will replace the material with the one that suits you.
+
+                        <br><hr>
+                        The administration always comes in contact with the authors,
+                        you can send <br>complaints to the postal address:<a class="kn-text-link kn-text-500 kn-text-a p-2" href="mail:navruznorpulatov@gmail.com" > navruznorpulatov@gmail.com </a> 
+            
+            </p>
+        </div>
+
+        <a class="p-4 d-block kn-text" href="mailto:navruznorpulatov@gmail.com">
+            Mail to -> navruznorpulatov@gmail.com
+        </a>
+    </div> 
+    
+ {% endblock %}

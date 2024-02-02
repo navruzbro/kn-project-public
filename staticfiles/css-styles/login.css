@@ -1,0 +1,156 @@
+.login-form-box{
+  width:100vw!important;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+.login-form-box .divcha{
+  width:18rem;
+  position: relative;
+}
+.login-form-box .divcha div{
+  position: relative;
+  z-index:16;
+}
+.form-login-custom {
+    
+    display: flex;
+    align-self: center;
+    justify-self: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+    padding-left: 2em;
+    padding-right: 2em;
+    padding-bottom: 0.4em;
+    background: rgba(255,255,255,.05);
+    box-shadow: 0 0 10px rgba(0,0,0,0.25);
+    backdrop-filter: blur(20px);
+    border-radius:10px;
+    transition: .4s ease-in-out;
+    width:18rem;
+    border:0px solid black;
+  }
+  
+  .form-login-custom:hover {
+    transform: scale(1.05);
+    border: 1px solid black;
+  }
+  
+  #heading {
+    margin: 2em;
+    color: rgb(255, 255, 255);
+    font-size: 1.2em;
+  }
+  .heading-signup{
+    margin:0.8rem;
+    margin-top:1.5rem;
+    text-align: center;
+    color: rgb(255, 255, 255);
+    font-size: 1.2em;
+  }
+  .field {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.6em;
+    border: none;
+    outline: none;
+    color: black;
+    background: rgba(19, 19, 19, 0.05);
+    box-shadow: 0 0 10px rgba(0,0,0,0.25);
+    backdrop-filter: blur(20px);
+    border-radius:15px;
+    box-shadow: inset 2px 5px 10px rgb(5, 5, 5);
+  }
+  .field-signup{
+    padding: 0.3em;
+
+  }
+  .input-icon {
+    height: 1.3em;
+    width: 1.3em;
+    fill: white;
+    color:white;
+  }
+  .input-icon a{
+    color:white;
+  }
+  
+  .input-field {
+    background: none;
+    border: none;
+    outline: none;
+    width: 100%;
+    color: #d3d3d3;
+  }
+  
+  .form-login-custom .btn {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    width:100%;
+    margin:0;
+    padding:0;
+    width:100%;
+    
+
+  }
+  .form-login-custom .kn-text-smaller{
+    margin-bottom: 3rem;
+  }
+  .button1 {
+    border-radius: 5px;
+    margin-right: 0.3rem;
+    padding: 0.5rem 0.7rem;
+    border: none;
+    /**outline: none;*/
+    transition: 0.4s ease-in-out;
+    background-color: #252525;
+    color: white;
+    font-size: 0.8rem;
+  }
+  
+  .button1:hover {
+    background-color: black;
+    color: white;
+  }
+  
+  .button2 {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.7rem;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    transition: .4s ease-in-out;
+    background-color: #252525;
+    color: white;
+  }
+  
+  .button3:hover {
+    background-color: black;
+    color: white;
+  }
+  
+  .button3 {
+    margin-top: 2.5rem;
+    
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    transition: .4s ease-in-out;
+    background-color: #252525;
+    color: white;
+  }
+  .button3-signup{
+    margin-top:0.5rem;
+  }
+  
+  .button2:hover {
+    background-color: red;
+    color: white;
+  }
+
+  

@@ -1,0 +1,951 @@
+{% load static %}
+
+{# Linklar #}
+{% url 'film:home' as home %}
+{% url 'film:all-films' as allfilm %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>
+      {% block title %}
+      KinoMakon | Eng yaxshi filmlar makoni
+      {% endblock %}
+  </title>
+  <link rel="icon" href="{% static 'media/kinomakon-logo.png' %}" type="image/jpg">
+
+  <!--Search controls-->
+  <meta name="description" content="
+  kinomakonuz kinomakon uz tarjima kinolar makoni
+  {% block description %}
+
+   {% endblock %} premyeralar onlayn o'zbekcha filmlar">
+  <meta name="keywords" content="
+  kinomakonuz kinomakon.uz kinolar makoni
+  {% block keywords %}
+
+    {% endblock  %}tarjima kinolar o'zbekcha kinolar
+   " >
+  <meta property="og:site_name" content="Kinomakon | Premyeralar " >
+  <meta property="og:title" content="{% block ogtitle %}Kinomakon | Premyeralar{% endblock %}">
+  <meta property="og:url" content="http://kinomakon.uz{% block ogurl %}{% endblock %}">
+  <meta property="og:image" content="http://kinomakon.uz{% static 'media/kinomakon-logo.jpg' %}">
+  <meta property="og:locale" content="uz_UZ">
+  <meta name="theme-color" content="#262626" >
+
+  <!--Bootstrap styles-->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+  <!--Font awesome (Icons)-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+
+  <!--Google font-->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;0,1000;1,300;1,400;1,500;1,700;1,900&family=Roboto:ital,wght@0,900;1,300&family=Tilt+Neon&display=swap" rel="stylesheet">
+  <!--My css files-->
+  <link rel="stylesheet" href="{% static 'css-styles/shared.css'%}">
+  <link rel="stylesheet" href="{% static 'css-styles/bg.css' %}">
+  <link rel="stylesheet" href="{% static 'css-styles/base.css' %}">
+  <link rel="stylesheet" href="{% static 'css-styles/home.css' %}">
+  <link rel="stylesheet" href="{% static 'css-styles/home-2.css' %}">
+  <link rel="stylesheet" href="{% static 'css-styles/404.css'%}">
+  <link rel="stylesheet" href="{% static 'css-styles/404page.css' %}">
+  <!--film-->
+  <link rel="stylesheet" href="{% static 'css-styles/film.css' %}">
+  <link rel="stylesheet" href="{% static 'css-styles/all-film.css' %}">
+  <link rel="stylesheet" href="{% static 'css-styles/login.css'%}">
+  <link rel="stylesheet" href="{% static 'css-styles/profile.css' %}">
+  <style>
+
+
+    .butn-4{
+      display:inline-block;
+    background-color: transparent;
+    border: None;
+    box-shadow: /*3px 3px 10px rgba(0,0,0,1),
+        -1px -1px 6px rgba(255, 255, 255, 0.4), */
+        inset 3px 3px 10px rgba(0,0,0,1),
+        inset -1px -1px 6px rgba(255, 255, 255, 0.4);
+    border-radius:10px;
+    transition: all 0.2s ease-in-out ;
+    backdrop-filter: blur(20px);
+    padding:auto 1rem auto 1rem;
+    color:#ffffff;
+    text-decoration: none;
+    }
+
+.butn-5{
+color:#ffffff;
+    z-index:10;
+    text-decoration: none;
+    background: rgba(255,255,255,.05);
+    box-shadow: 0 0 10px rgba(0,0,0,0.25);
+    backdrop-filter: blur(20px);
+    border-radius:10px;
+    display:inline-block;
+    transition: all 0.2s ease-in-out ;
+}
+.butn-5:hover{
+    color:#784ba0;
+    background: rgba(45, 42, 42, 0.05);
+    backdrop-filter: blur(100px);
+}
+    /*CARD -- STYLES*/
+      .card {
+    position: relative;
+    /*Z INDEX*/
+    z-index:10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    /*padding: 1.2rem 0.6rem;
+    width: 220px;*/
+    height: 14rem;
+    border-radius: 10px;
+    background: rgba(255,255,255,.05);
+    box-shadow: 0 0 10px rgba(0,0,0,0.25);
+    backdrop-filter: blur(30px);
+    cursor: pointer;
+    overflow: hidden;
+
+  }
+  @media(min-width:370px){
+    .card{
+        height: 17rem!important;
+    }
+  }
+  @media(min-width:576px){
+    .card{
+        height: 20rem!important;
+    }
+  }
+  @media(min-width:768px){
+    .card{
+        height: 25rem!important;
+    }
+  }
+  @media(min-width:992px){
+    .card{
+        height: 28rem!important;
+    }
+  }
+.carousel-img-div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    height:25rem;
+}
+.carousel-img{
+    margin: 0 auto;
+    width:80vw;
+    height:auto;
+    align-self:center;
+}
+
+@media(max-width:576px){
+    .carousel-item{
+        height:34vh;
+    }
+    .carousel-img-div{
+        height:34vh;
+
+    }
+    .carousel-img{
+      width:100vw;
+      min-height:26vh;
+    }
+}
+
+    /*END CARD STYLES*/
+
+
+
+
+    @media(max-width:912px){
+ .kn-offcanvas{
+   overflow-y:scroll;
+ }
+}
+@media(max-width:576px){
+  .custom-icon-nav{
+   margin:0.4rem;
+  }
+    .navbar-link i{
+  margin:0;
+  font-size: 1rem;
+}}
+
+@media(min-width:370px){
+    .card{
+        height: 15rem;
+    }
+  }
+  @media(min-width:576px){
+    .card{
+        height: 18rem;
+    }
+  }
+  @media(min-width:768px){
+    .card{
+        height: 21rem;
+    }
+  }
+  @media(min-width:992px){
+    .card{
+        height: 23rem;
+    }
+  }
+
+.kn-d-flex{
+     display:flex;
+     justify-content:center;
+    }
+
+  .film-c-t{
+   font-size:1.3rem;
+  }
+.card-carousel{
+ border-radius: 10px;
+ background: transparent;
+  box-shadow: None;
+  backdrop-filter:None;
+  border:0;
+   height: 24rem;
+   position:relative;
+}
+.card-carousel .card-img-div{
+ height:89%!important;
+ position:relative;
+}
+.card-img-carousel{
+  min-height:100%;
+  max-height:120%;
+}
+.card-carousel .card-title .card-title-in{
+        color: #fff;
+        font-size:1.3rem;
+    }
+
+.carousel-film{
+      height:24rem;
+      margin-top:1rem;
+      margin-bottom:1rem;
+    }
+    .carousel-film .carousel-inner .carousel-item{
+       height:25rem;
+     }
+
+/*card carouel width:*/
+@media(min-width:370px){
+    .card-carousel{
+        height: 29rem!important;
+    }
+     .carousel-film{
+      height:29rem;
+    }
+    .carousel-film .carousel-inner .carousel-item{
+       height:29rem;
+     }
+  }
+  @media(min-width:576px){
+    .card-carousel{
+        height: 27rem!important;
+    }
+    .carousel-film{
+      height:28rem;
+    }
+    .carousel-film .carousel-inner .carousel-item{
+       height:29rem;
+     }
+  }
+  @media(min-width:768px){
+    .card-carousel{
+        height: 30rem!important;
+    }
+    .carousel-film{
+      height:31rem!important;
+    }
+    .carousel-film .carousel-inner .carousel-item{
+       height:32rem!important;
+     }
+  }
+  @media(min-width:992px){
+    .card-carousel{
+        height: 34rem!important;
+    }
+    .carousel-film{
+      height:35rem!important;
+    }
+    .carousel-film .carousel-inner .carousel-item{
+       height:36rem!important;
+     }
+  }
+
+/*carousel down button*/
+.card-title{
+  position:relative;
+  width:100%;
+  text-align:center;
+}
+.carousel-down-butn{
+  display:inline-block;
+  position:absolute;
+
+}
+.carousel-down-butn button{
+  border:None;
+  background:transparent;
+  color:white;
+  font-size:1.4rem;
+}
+.c-d-left{
+  top:1rem;
+  left:0;
+}
+.c-d-right{
+  top:1rem;
+  right:0;
+}
+.c-filmnews-card{
+ height:17%!important:
+ position:relative;
+ margin:0.5rem 0;
+
+}
+.c-filmnews-img{
+ height:100%;
+
+ overflow:hidden;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+}
+
+     .film-filter-active{
+             background: linear-gradient(225deg, #ff3cac 0%, #784ba0 50%, #2b86c5 100%);
+             backdrop-filter:blur(20px);
+         }
+         .film-filter-active:hover{
+          background: linear-gradient(225deg, #ff3cac 0%, #784ba0 50%, #2b86c5 100%);
+          color:white;
+         }
+         .all-link{
+          display:flex;
+          justify-content:center;
+         }
+         .all-link a{
+          font-size:1rem;
+         }
+         .films-type{
+           font-size:1.2rem
+         }
+         @media(max-width:576px){
+         .card-carousel .card-title .card-title-in{
+          font-size:1rem!important;
+         }
+         .card-title .carousel-down-butn{
+           top:0!important;
+         }
+
+           .all-link a{
+            font-size:0.8rem
+           }
+           .films-type{
+            font-size:1rem
+           }
+         }
+
+
+    .carousel-h5{
+       font-weight:800;
+       font-size:1.9rem;
+      }
+      @media(max-width:768px){
+       .carousel-h5{
+        font-size:1.2rem;
+       }
+
+      }
+      .kn-gradient{
+            width:100%;
+            height:100%;
+            background-image:linear-gradient(to top, #262626, transparent);
+            position: absolute;
+            top:0;
+            left:0;
+        }
+.c-filmnews-card{
+ border-radius:7px;
+ border:none;
+ backdrop-filter:none;
+ background-color:#272727!important;
+}
+
+
+
+
+
+
+    /*TOAST styles*/
+
+
+         .custom-toast{
+           position:fixed;
+           right:0;
+
+
+         }
+         .custom-toast-item{
+              background: rgba(255,255,255,.05);
+              box-shadow: 0 0 10px rgba(0,0,0,0.25);
+              backdrop-filter: blur(20px);
+              border-radius:10px;
+              animation:toast 5s;
+              animation-fill-mode: forwards;
+              position:relative;
+         }
+
+         .custom-toast-item p{
+          color:black;
+         }
+
+         .success {
+            background: rgba(66, 247, 120, 0.8);
+            box-shadow: 0 0 10px rgba(0,0,0,0.25);
+            backdrop-filter: blur(30px);
+            border-radius:10px 10px 0 0;
+         }
+         .success span{
+           background: rgb(2, 74, 24);
+            border:1px solid green;
+           display:block;
+            height:8px;
+            width:100%;
+            opacity:!important;
+            margin:0;
+            padding:0;
+
+            right:0;
+            animation:toast-under 11s;
+            animation-fill-mode: forwards;
+         }
+
+         .error{
+            background: rgba(253, 56, 92, 0.8);
+            box-shadow: 0 0 10px rgba(0,0,0,0.25);
+            backdrop-filter: blur(30px);
+            border-radius:10px 10px 0 0;
+         }
+         .error span{
+           background: rgb(64, 1, 2);
+           border:1px solid red;
+           display:block;
+            height:8px;
+            width:100%;
+            opacity:1;
+            margin:0;
+            padding:0;
+            right:0;
+            animation:toast-under 13s;
+            animation-fill-mode: forwards;
+         }
+         .warning{
+            background: rgb(193, 218, 55, 0.8);
+            box-shadow: 0 0 10px rgba(0,0,0,0.25);
+            backdrop-filter: blur(30px);
+            border-radius:10px 10px 0 0;
+         }
+         .warning span{
+           background: rgb(60, 70, 1);
+           border:1px solid yellow;
+           display:block;
+            height:8px;
+            width:100%;
+            opacity:1;
+            margin:0;
+            padding:0;
+            right:0;
+            animation:toast-under 11s;
+            animation-fill-mode: forwards;
+         }
+
+         .info {
+            background: rgba(7, 72, 145, 0.8);
+
+            box-shadow: 0 0 10px rgba(0,0,0,0.25);
+            backdrop-filter: blur(30px);
+            border-radius:10px 10px 0 0;
+         }
+         .info span{
+           background: rgb(5, 3, 129);
+            border:1px solid blue;
+           display:block;
+            height:8px;
+            width:100%;
+            opacity:!important;
+            margin:0;
+            padding:0;
+
+            right:0;
+            animation:toast-under 11s;
+            animation-fill-mode: forwards;
+         }
+
+
+        @media(max-width:576px){
+          .custom-toast{
+            font-size:0.7rem;
+            width:50vw;
+          }
+        }
+        @keyframes toast {
+          0% {
+             opacity:1;
+          }
+
+          95% {
+            opacity:1;
+          }
+          99%{
+           opacity:1;
+          }
+          100%{
+            opacity:0;
+            position:absolute;
+          }
+        }
+        @keyframes toast-under {
+         100%{
+          width:0%;
+         }
+        }
+    .tg-link{
+                  display:flex;
+                  justify-content:center;
+                  z-index:50!important;
+                }
+                .tg-link a{
+                 text-decoration:none;
+                 color:#FFF;
+                 padding-top:0.4rem;
+                 padding-bottom:0.4rem;
+                 z-index:50!important;
+                }
+                 .tg-link-button {
+                      font-family: inherit;
+                      background: #2CA0D9;
+                      color: white;
+                      padding: 0.35em 0;
+                      font-size: 17px;
+                      border: none;
+                      border-radius: 0.7em;
+                      letter-spacing: 0.08em;
+                      position: relative;
+                      display: flex;
+                      align-content: center;
+                      align-items: center;
+                      overflow: hidden;
+                      height: 2.5em;
+                      padding-left: 2.8em;
+                      padding-right: 0.92em;
+                    }
+
+                .tg-link-button .tg-link-icon {
+                  background: #fff;
+                  height: 2em;
+                  width: 2em;
+                  border-radius: 2em;
+                  position: absolute;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  left: 0.4em;
+                  transition: all 0.5s;
+                }
+
+                .tg-link-icon svg {
+                  margin-left: 0.1em;
+                  transition: all 0.5s;
+                  color: #2CA0D9;
+                  width: 1.2rem;
+                  height: 1.2rem;
+                }
+
+                .tg-link-button:hover .tg-link-icon svg,
+                  .tg-link-button:active .tg-link-icon svg{
+                  transform: rotate(360deg);
+                }
+
+                .tg-link-button:hover .tg-link-icon,
+                  .tg-link-button:active .tg-link-icon svg{
+                  width: calc(100% - 0.85rem);
+                  border-radius: 0.5em;
+                }
+                .footer-top,
+                 .footer-section,
+                 .container-fluid{
+                 margin-left:0;
+                 margin-right:0;
+                }
+
+
+                .footer-top-buttons a{
+                  color:#fff;
+                  border:1px solid #000;
+                  border-radius:4px;
+                }
+                .footer-top-buttons a:hover{
+                  background-color: transparent;
+                  border: 1px solid transparent;
+                  box-shadow: /*3px 3px 10px rgba(0,0,0,1),
+                      -1px -1px 6px rgba(255, 255, 255, 0.4), */
+                      inset 3px 3px 10px rgba(0,0,0,1),
+                      inset -1px -1px 6px rgba(255, 255, 255, 0.4);
+                  border-radius:4px;
+                  transition: all 0.2s ease-in-out ;
+                  backdrop-filter: blur(20px);
+                  color:#ffffff;
+                  text-decoration: none;
+                }
+
+    .sc-input{
+     background:none!important;
+     box-shadow:none!important;
+     border:none!important;
+     backdrop-filter:none!important;
+    }
+  </style>
+</head>
+<body style="overflow-x:hidden;font-family:sans-serif!important;">
+    <div class="navbar-custom">
+
+      <div class="row">
+      <div class="offset-1 col">
+        <div class="d-inline-block logo-img-div ">
+          <img src="{% static 'media/kinomakon.png' %}" >
+         </div>
+       </div>
+      <div class=" col navbar-icon-cust px-1 pe-2">
+        <div class="navbar-form-custom">
+          <form method="get" role="search"  action="{% url 'film:search' %}">
+            <div class="search-wave-group">
+              <input required="" class="sc-input" type="search" aria-label="Search" name="q" value="{{search_query}}">
+              <span class="bar-s"></span>
+              <label class="label-search">
+                <span class="label-char-s" style="--index: 0">F</span>
+                <span class="label-char-s" style="--index: 1">i</span>
+                <span class="label-char-s" style="--index: 2">l</span>
+                <span class="label-char-s" style="--index: 3">m</span>
+                <span class="search-item-space"> </span>
+                <span class="label-char-s" style="--index: 4"> </span>
+                <span class="label-char-s" style="--index: 5">i</span>
+                <span class="label-char-s" style="--index: 6">z</span>
+                <span class="label-char-s" style="--index: 7">l</span>
+                <span class="label-char-s" style="--index: 8">a</span>
+                <span class="label-char-s" style="--index: 9">s</span>
+                <span class="label-char-s" style="--index: 10">h</span>
+              </label>
+            </div>
+            <button class="navbar-link navbar-link-btn"  type="submit">
+              <i class="fa-solid fa-magnifying-glass fa-xl custom-icon-nav"></i>
+            </button>
+            <button class="navbar-link navbar-link-btn"  id="ofc-open-btn"  type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanasExample">
+              <i class="fa-solid fa-bars fa-xl custom-icon-nav"></i>
+            </button>
+          </form>
+        </div>
+
+      </div>
+      </div>
+        <div class="custom-toast ">
+          {% if messages %}
+          {% for message in messages  %}
+          <div class="custom-toast-item {{message.tags}} my-5">
+            <p class= "pt-1 px-1 pt-md-2 px-md-2">{{message}}</p>
+            <span>&nbsp;</span>
+          </div>
+          {% endfor %}
+          {% endif %}
+        </div>
+
+    </div>
+
+    <!--/Offcanvas-->
+    <div class=" blur-box kn-text-white offcanvas-end kn-offcanvas offcanvas" tabindex="-1"  data-bs-scroll="false" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasExampleLabel">
+          <img class="img-fluid ofc-logo-img" src="{% static 'media/kinomakon.png' %}">
+          {% if request.user.is_authenticated %}
+          &nbsp;&nbsp;-&nbsp;&nbsp;
+
+          <i class="fa-solid fa-handshake kn-text-white fa-xl"></i>
+          &nbsp;&nbsp;-&nbsp;&nbsp;
+          <div class="offcanvas-header-img-box">
+            {% if request.user.picture %}
+             <img class="offcanvas-header-img" src="{{request.user.picture.url}}" alt="{{request.user.username | title}} rasmi">
+            {% else %}
+             <img class="offcanvas-header-img" src="{% static 'media/user-default-pic.png' %}" alt="{{request.user.username | title}} rasmi">
+            {% endif %}
+          </div>
+          {% endif %}
+        </h5>
+        <button type="button" class="kn-text-white kn-btn-close" id="ofc-close-btn" data-bs-dismiss="offcanvas" aria-label="Close"><i class="fa-solid fa-xmark fa-xl"></i></button>
+      </div>
+      <div class="offcanvas-body">
+         {% if request.user.is_authenticated %}
+        <a class="butn-2 py-1 px-3 kn-ofc-btn my-1" href="{% url 'film:profile' %}">
+          Mening profilim
+        </a><br>
+        {% else %}
+        <a class="butn-2 py-1 px-3 kn-ofc-btn my-1" href="{% url 'users:signup' %}">
+          Ro'yxatdan o'tish&nbsp;&nbsp;
+        </a><br>
+        {% endif %}
+        {% if request.path == home %}
+        <!--Tugma chiqmaydi-->
+        {% else %}
+        <a class="butn-2 py-1 px-3 kn-ofc-btn my-1" href="{{home}}">
+          Bosh sahifa*
+        </a><br>
+        {% endif %}
+        <span class="kn-text-small">Pastdagi tugmalar orqali filmlarni saralang!</span>
+        <!--offcanvas accordion-->
+        <div class=" accordion-flush " id="ofc-accordion">
+          <div class="accordion-item  ">
+            <h2 class="accordion-header  ">
+              <button class="butn-2 py-1 px-3 kn-ofc-btn collapsed my-1" type="button" data-bs-toggle="collapse" data-bs-target="#ofc-kinolar" aria-expanded="false" aria-controls="ofc-kinolar">
+                Filmlar&nbsp;<i class="fa-solid fa-down-long"></i>
+              </button>
+            </h2>
+            <div id="ofc-kinolar" class="accordion-collapse collapse" data-bs-parent="#ofc-accordion">
+              <div class="accordion-body ">
+                {% if request.path == allfilm %}{% else %}
+                <a class="butn-2 py-1 px-3 ms-2 mt-1" href="{{allfilm}}">
+                  Barcha filmlar
+                </a>{% endif %}
+                <a class="butn-2 py-1 px-3 ms-2 mt-1" href="{% url 'film:mundarija' %}">
+                  Kinolar ro'yxati - Mundarija
+                </a>
+                <a class="butn-2 py-1 px-3 ms-2 mt-1" href="{% url 'film:random' %}">
+                  Tasodifiy tanlash
+                </a>
+                <a class="butn-2 py-1 px-3 ms-2 mt-1" href="{{allfilm}}">
+                  Eng so'nggi
+                </a>
+                <a class="butn-2 py-1 px-3 ms-2 mt-1" href="{{allfilm}}?order_by=imdb_rating&filter=True">
+                  Tavsiya
+                </a>
+                <a class="butn-2 py-1 px-3 ms-2 mt-1" href="{{allfilm}}?order_by=kinomakon_rating">
+                  Reyting bo'yicha
+                </a>
+                <a class="butn-2 py-1 px-3 ms-2 mt-1" href="{{allfilm}}?turi=kino">
+                  Faqat kinolar
+                </a>
+                <a class="butn-2 py-1 px-3 ms-2 mt-1" href="{{allfilm}}?turi=multfilm">
+                  Multfilmlar
+                </a>
+                <a class="butn-2 py-1 px-3 ms-2 mt-1" href="{{allfilm}}?turi=serial">
+                  Serial va multseriallar
+                </a>
+                <a class="butn-2 py-1 px-3 ms-2 mt-1" href="{% url 'filmnews:home'%}">
+                  Kino yangiliklari*
+                </a>
+                <hr>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="butn-2 py-1 px-3 kn-ofc-btn  my-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ofc-janrlar" aria-expanded="false" aria-controls="janrlar">
+                Janrlar&nbsp;<i class="fa-solid fa-down-long"> </i>
+              </button>
+            </h2>
+            <div id="ofc-janrlar" class="accordion-collapse collapse" data-bs-parent="#ofc-accordion">
+              <div class="accordion-body">
+                {% for janr in janrlar %}
+                <a class="butn-2 py-1 px-3 ms-2 mt-1" href="{{janr.janr_url}}">
+                  {{janr.janr | title }}
+                </a>
+                {% endfor %}
+
+                <hr>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="butn-2 py-1 px-3 kn-ofc-btn my-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ofc-yil" aria-expanded="false" aria-controls="ofc-yil">
+                Yil&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-down-long  "></i>
+              </button>
+            </h2>
+            <div id="ofc-yil" class="accordion-collapse collapse" data-bs-parent="#ofc-accordion">
+              <div class="accordion-body">
+                {% for yil in yillar %}
+                <a class="butn-2 py-1 px-3 ms-2 mt-1 kn-text-small" href="{{yil.year_url}}">
+                  {{yil.year}}
+                </a>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="butn-2 py-1 px-3 kn-ofc-btn  my-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ofc-countries" aria-expanded="false" aria-controls="ofc-countries">
+                Davlatlar&nbsp;<i class="fa-solid fa-down-long"> </i>
+              </button>
+            </h2>
+            <div id="ofc-countries" class="accordion-collapse collapse" data-bs-parent="#ofc-accordion">
+              <div class="accordion-body">
+                {% for davlat in davlatlar %}
+                <a class="butn-2 py-1 px-3 ms-2 mt-1" href="{{davlat.country_url}}">
+                  {{ davlat.country}}
+                </a>
+                {% endfor %}
+
+                <hr>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="butn-2 py-1 px-3 kn-ofc-btn  my-1 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ofc-kinoolam" aria-expanded="false" aria-controls="ofc-kinoolam">
+                Kino Olam&nbsp;<i class="fa-solid fa-down-long"> </i>
+              </button>
+            </h2>
+            <div id="ofc-kinoolam" class="accordion-collapse collapse" data-bs-parent="#ofc-accordion">
+              <div class="accordion-body">
+                {% for kinool in kinoolamdef %}
+                <a class="butn-2 py-1 px-3 ms-2 mt-1" href="{{kinool.kinoolam_url}}">
+                  {{ kinool.title}}
+                </a>
+                {% endfor %}
+
+                <hr>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--End offcanvas accordion-->
+
+        <!--Another buttons-->
+        <a class="butn-2 py-1 px-3 kn-ofc-btn mt-3" href="{% url 'film:create-web' %}">
+          Sayt yaratish - by NavruzBRO :&nbsp;)
+        </a>
+        <!--
+        <a class="butn-2 py-1 px-3 kn-ofc-btn mt-3" href="https://t.me/cyberasia">
+          author - NavruzBRO :&nbsp;)
+        </a>-->
+      </div>
+    </div>
+
+    <!----offcanvas END---->
+   {% block content %}
+
+    {% endblock content %}
+
+<!-----F O O T E R ------->
+    <div class="tg-link my-4" >
+      <a class="tg-link-button" href="https://t.me/+3m2fNqlCmOY3YTEy">
+          <div class="tg-link-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telegram" viewBox="0 0 16 16">
+              <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.287 5.906c-.778.324-2.334.994-4.666 2.01-.378.15-.577.298-.595.442-.03.243.275.339.69.47l.175.055c.408.133.958.288 1.243.294.26.006.549-.1.868-.32 2.179-1.471 3.304-2.214 3.374-2.23.05-.012.12-.026.166.016.047.041.042.12.037.141-.03.129-1.227 1.241-1.846 1.817-.193.18-.33.307-.358.336a8.154 8.154 0 0 1-.188.186c-.38.366-.664.64.015 1.088.327.216.589.393.85.571.284.194.568.387.936.629.093.06.183.125.27.187.331.236.63.448.997.414.214-.02.435-.22.547-.82.265-1.417.786-4.486.906-5.751a1.426 1.426 0 0 0-.013-.315.337.337 0 0 0-.114-.217.526.526 0 0 0-.31-.093c-.3.005-.763.166-2.984 1.09z"></path>
+            </svg>
+          </div>
+          <p style="margin:0.4rem;">Filmlarni telegramdan yuklang</p>
+      </a>
+    </div>
+
+    <footer class="footer-section ">
+      <div class="container-fluid">
+        <div class="footer-top">
+          <div class="circle-custom footer-circle"></div>
+          <div class="footer-top-inner mx-1 mx-md-2 ">
+            <div class="footer-top-img">
+              <img src="{% static 'media/kinomakon-qora.png' %}">
+            </div>
+
+            <div class="footer-top-buttons mb-2 my-md-4">
+              <a class="btn fw-600" href="{% url 'film:ads' %}">
+                Reklama
+              </a>
+              <a class="btn " href="{% url 'film:dmcaru' %}">
+                Правообладателям
+              </a>
+              <a class="btn " href="{% url 'film:dmca' %}">
+                DMCA | Copyright holders
+              </a><br>
+              <a class="btn " href="{% url 'film:foydalanish' %}">
+                Saytdan to'g'ri foydalanish
+              </a>
+              <a class="btn " href="{% url 'film:about' %}">
+                Sayt haqida
+              </a>
+              <a class="btn " href="{% url 'film:feedback' %}">
+                Fikr-Mulohaza | Murojaat uchun | feedback
+              </a>
+
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom mb-2">
+          <a href="https://kinomakon.uz" class="kn-text kn-center">
+            <i class="fa-regular fa-copyright"></i>
+            KinoMakon - 2023-2024
+          </a>
+            <span class="kn-text-pink kn-text-very-small"> author
+              <a class="kn-text-pink kn-text-very-small" href="https://t.me/cyberasia">
+                NavruzBRO
+              </a></span>
+         <div>
+            <p class="kn-text kn-text-small">
+              The rights to films belon
+              g to their authors. All films are presented
+              for informational purposes only. The
+              administration is not responsible for illegal
+                materials posted by users! Any
+                <a href="{% url 'film:dmca' %}" class="kn-text"> film will be deleted </a>
+                at the request of the copyright holder
+            </p>
+            <p class="kn-text kn-text-small">
+              Права на фильмы принадлежат их авторам.
+              Все фильмы представлены только для ознакомления.
+              Администрация не несет ответственности за размещенные
+              пользователями нелегальные материалы! Любой фильм
+               <a class="kn-text" href="{% url 'film:dmcaru' %}"> будет удален </a>
+               по требованию правообладателя
+            </p>
+            <a class="btn butn-2 kn-text-small" href="{% url 'film:create-web' %}">
+              Siz ham shunaqa saytingiz bo'lishini xohlaysizmi? - Bizga murojaat qiling
+            </a>
+            <a class="btn butn-2 kn-text-small" href="{% url 'film:create-web' %}">
+              Sayt yaratish - Batafsil ma'lumot
+            </a>
+          </div>
+        </div>
+      </div>
+      <hr class="kn-text-pink">
+    </footer>
+
+    <!--EFFECTS-->
+    <ul class="circles">
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+</body>
+</html>

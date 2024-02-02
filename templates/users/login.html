@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Login - Kinomakon {% endblock %}
+
+{% block content %}
+<nav class="kn-breadcrumb-box mt-5">
+           
+  <div class="kn-breadcrumb mt-5">
+      <a class="" href="{% url 'film:home' %}">Kinomakon</a><span> >> </span>
+      
+      <a class="">Kirish - login</a>
+  </div>
+</nav>
+<style>
+   .form-login-custom p label{
+      position:relative;
+      top:1.2rem;
+      left:1.5rem;
+   }
+
+    .form-login-custom p input{
+      display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.6em;
+    border: none;
+    outline: none;
+    background: rgba(19, 19, 19, 0.05);
+    box-shadow: 0 0 10px rgba(0,0,0,0.25);
+    backdrop-filter: blur(20px);
+    border-radius:15px;
+    box-shadow: inset 2px 5px 10px rgb(5, 5, 5);
+
+    /*Inner codes*/
+    background: none;
+    border: none;
+    outline: none;
+    width: 100%;
+    color: #d3d3d3;
+    color: #fff;
+
+    }
+    .form-login-custom{margin:0;}
+
+.button2, button1, a{
+  text-decoration:none;
+}
+
+
+li{
+ font-size:0.8rem;
+ color:#ff85a1;
+}
+
+</style>
+<div class="login-form-box">
+  <div class="divcha"><div class="circle-custom"></div>
+    <div class="">
+        <form class="form-login-custom " method="post" action="{% url 'users:login' %}">{% csrf_token %}
+            <p id="heading">Kirish - login</p>
+            {{login_form.as_p}}
+            <button class="button3" type="submit">Kirish</button>
+            <div class="btn">
+
+              <a class="button2 me-1" href="{% url 'film:home' %}">&nbsp;&nbsp;&nbsp;Orqaga&nbsp;&nbsp;&nbsp;</a>
+                <a class="button1" href="{% url 'users:signup'   %}?next=/users/login/">Ro'yxatdan o'tish</a>
+            </div>
+            <a class="ms-4 kn-text monospace kn-text-smaller" href="{% url 'users:signup' %}">Akkauntingiz yo'qmi?Ro'yxatdan o'ting!</a>
+        </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

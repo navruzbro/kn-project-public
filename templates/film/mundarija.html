@@ -1,0 +1,303 @@
+{% extends 'base.html' %}
+{% block title %}Mundarija - barcha kinolar ro'yxati | Kinomakon {% endblock %}
+
+
+{% block content %}
+<style>
+  .film-filter-active{
+             background: linear-gradient(225deg, #ff3cac 0%, #784ba0 50%, #2b86c5 100%);
+             backdrop-filter:blur(20px);
+         }
+  .film-filter-active:hover{
+          background: linear-gradient(225deg, #ff3cac 0%, #784ba0 50%, #2b86c5 100%);
+          color:white;
+         }
+    .film-filter-type a{
+      font-size:0.9rem;
+    }
+    @media(max-width:768px){
+     .film-filter-type a{font-size:0.8rem}
+     .pagination-box-parent{
+      display:flex;
+      justify-content:center
+    }
+    }
+    @media(max-width:576px){
+     .film-filter-type a{font-size:0.6rem}
+     }
+
+    /*NEW ADDD*/
+   .mundarija-item{
+      display:flex;
+      justify-content:start;
+
+   }
+    .mundarija-item a{
+      display:flex;
+      align-items:center;
+      text-decoration:none;
+      margin:5px;
+      padding-left:10px;
+      padding-right:20px;
+      padding-top:5px;
+      padding-bottom:5px;
+    }
+    @media(max-width:768px){
+      .mundarija-item{
+      justify-content:center;
+   }
+    .mundarija-item a{
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      margin:5px;
+      padding-left:5px;
+      padding-right:5px;
+      padding-top:2px;
+      padding-bottom:-5px;
+      font-size:0.8rem;
+    }
+    }
+</style>
+<div class="kn-top-margin-sm">
+    &nbsp;
+</div>
+
+<!--breadcrumb-->
+<nav class="kn-breadcrumb-box mt-2 mx-1 mx-md-2 ">
+
+    <div class="kn-breadcrumb my-4">
+        <a class="" href="{% url 'film:home' %}">Kinomakon</a><span> >> </span>
+        <a class="" href="{% url 'film:all-films' %}">Barcha filmlar</a><span> >> </span>
+         <a class="" >Mundarija</a>
+    </div>
+</nav>
+<!--end breadcrumb-->
+<h4 class="mx-2 mx-md-3 my-1">Barcha filmlar - Mundarija</h4>
+<p class="my-1 mb-2 mx-2 mx-md-3 kn-text-small"><i>An'analarga sodiq qolgan holda saytga ham Mundarija funksiyasini qo'shdik. U allaqchon telegram kanalimizda ham bor edi.</i></p>
+<div class="container-fluid">
+    <div class="mandarija-box mb-5 mt-3">
+        <!--FILTERS-->
+        <div class="film-filter row ">
+                        <a class="btn butn col-3 col-md-2 mx-2 {% if active == 'publish_time' %} film-filter-active {% endif %}" href="{% if active_type == 'kino' %}?turi=kino&order_by=publish_time{% elif active_type == 'serial' %}?turi=serial&order_by=publish_time{% elif active_type == 'multfilm' %}?turi=multfilm&order_by=publish_time{% else  %}?order_by=publish_time{% endif %}">
+                           Eng so'nggi
+                         </a>
+                        <a class="btn butn col-3 col-md-2 {% if active == 'imdb_rating' %} film-filter-active {% endif %} " href="{% if active_type == 'kino' %}?turi=kino&order_by=imdb_rating&filter=True{% elif active_type == 'serial' %}?turi=serial&order_by=imdb_rating&filter=True{% elif active_type == 'multfilm' %}?turi=multfilm&order_by=imdb_rating&filter=True{% else %}?order_by=imdb_rating&filter=True{% endif %}">
+                           Tavsiya
+                         </a>
+                        <a class="btn butn col-3 col-md-2 mx-2 {% if active == 'kinomakon_rating' %} film-filter-active {% endif %}" href="{% if active_type == 'kino' %}?turi=kino&order_by=kinomakon_rating{% elif active_type == 'serial' %}?turi=serial&order_by=kinomakon_rating{% elif active_type == 'multfilm' %}?turi=multfilm&order_by=kinomakon_rating{% else %}?order_by=kinomakon_rating{% endif %}&{{kn_page}}" >
+                           Reyting*
+                         </a>
+                         <button class="card-filter-btn"type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanasExample">
+                           <i class="fa-solid fa-filter"></i>filter
+                         </button>
+                     </div>
+        <div class="film-filter film-filter-type  my-3">
+                         <a class="btn butn  {% if active_type == 'all' %} film-filter-active {% endif %}" href="?turi=all&{% if active == 'kinomakon_rating' %}order_by=kinomakon_rating{% elif active == 'imdb_rating' %}order_by=imdb_rating&filter=True{% else %}order_by=publish_time{% endif  %}">
+                          Hammasi
+                         </a>
+                        <a class="btn butn  {% if active_type == 'kino' %} film-filter-active {% endif %}" href="?turi=kino&{% if active == 'kinomakon_rating' %}order_by=kinomakon_rating{% elif active == 'imdb_rating' %}order_by=imdb_rating&filter=True{% else %}order_by=publish_time{% endif  %}">
+                          Kinolar
+                         </a>
+                        <a class="btn butn   {% if active_type == 'multfilm' %} film-filter-active {% endif %} " href="?turi=multfilm&{% if active == 'kinomakon_rating' %}order_by=kinomakon_rating{% elif active == 'imdb_rating' %}order_by=imdb_rating&filter=True{% else %}order_by=publish_time{% endif  %}">
+                           Multfilmlar
+                         </a>
+                        <a class="btn butn   {% if active_type == 'serial' %} film-filter-active {% endif %}" href="?turi=serial&{% if active == 'kinomakon_rating' %}order_by=kinomakon_rating{% elif active == 'imdb_rating' %}order_by=imdb_rating&filter=True{% else %}order_by=publish_time{% endif  %}" >
+                          Serial va multseriallar
+                         </a>
+
+                     </div>
+        <!--END filters-->
+        <!--FILms-->
+        <p class="kn-text-smaller">
+            Filmni ko'rish uchun nomini ustiga bosing!
+        </p>
+        {% for film in films %}
+        <div class="mundarija-item">
+             <a href="{{film.get_absolute_url}}" class="blur-box ">
+                 <p><b>{{film.title}}&nbsp;{% if film.title_2 %}{{film.title_2}}{% endif %}</b>&nbsp;(<i>{{film.janr}}</i>)</p>
+             </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<div class="all-link mt-2 mb-3" style="display:flex;justify-content:center;">
+      <a href="{% url 'film:all-films' %}" class="butn px-2 py-1 px-md-4 ">
+          Barcha filmlar*
+      </a>
+</div>
+
+<section class="plus-tag-section">
+    <div class="container-fluid">
+        <div class="mx-1 mx-md-2 mb-5 mt-3">
+        <!--Shu kabi filmlar--><!--Faol foydalan--><!--Tasodifiy-filmlar-->
+          <div class="plus-section mx-2 my-5">
+              <div class="row">
+                  <!--SHu kabi filmlar-->
+                    <div class="col-12 col-sm-6 col-lg-4 ">
+                      <div class="blur-box mx-1">
+                          <div class="pt-2 kn-d-flex">
+                              <p class="kn-text-white film-c-t">Kino olami filmlari
+                              </p>
+                          </div>
+                          <div id="shukabifilmlar" class="carousel slide mx-2 carousel-film">
+                          <div class="carousel-inner">
+                              {% for filmpart in film_olam %}
+                            <div class="carousel-item {% if forloop.first %}active {% endif %}">
+
+                             <a href="{{filmpart.get_absolute_url}}" class="col-6 col-md-4 col-lg-3 col-xxl-2 my-2 cardContainer">
+                                  <div class="card card-carousel">
+                                    <div class="card-img-div">
+                                      <div class="card-img-rating">
+                                        <i class="fa-solid fa-star"></i>
+                                        {{filmpart.kinomakon_rating}}%
+                                      </div>
+                                      <img class="card-img card-img-carousel " src="{{filmpart.poster.url}}">
+                                    </div>
+                                           <div class="card-title">
+
+                                             <h5 class="card-title-in">
+                                              {{filmpart.title}}&nbsp;{% if filmpart.title_2 %}{{filmpart.title_2}}{% endif %}
+                                             </h5>
+                                             <p class="card-title-info">
+                                              {{filmpart.type}}
+                                                {{filmpart.janr}}
+                                                {% if filmpart.janr_2%}{{filmpart.janr_2}}{% endif %}
+                                                 {% if filmpart.janr_3%}{{filmpart.janr_3}}{% endif %}
+                                             </p>
+                                               <!--CAROUSEL DOWN BUTTOns-->
+                                               <span class="carousel-down-butn c-d-left">
+                                                   <button  type="button" data-bs-target="#shukabifilmlar" data-bs-slide="prev" >
+                                                       <i class="fa-solid fa-chevron-left"></i>
+                                                   </button>
+                                               </span>
+
+                                               <span class="carousel-down-butn c-d-right">
+                                                   <button  type="button" data-bs-target="#shukabifilmlar" data-bs-slide="next" >
+                                                       <i class="fa-solid fa-chevron-right"></i>
+                                                   </button>
+                                               </span>
+                                               <!--CAROUSEL _DOWN BUTONS-->
+                                           </div>
+                                  </div>
+                                </a>
+
+                            </div>
+                              {% endfor  %}
+                          </div>
+                          <button class="carousel-control-prev " style="z-index:45;" type="button" data-bs-target="#shukabifilmlar" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                          </button>
+                          <button class="carousel-control-next " style="z-index:45;"   type="button" data-bs-target="#shukabifilmlar" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                          </button>
+                      </div>
+                       </div>
+                  </div>
+                  <!--Tasodifiy-filmlar-->
+                  <div class="col-12 col-sm-6 col-lg-4 ">
+                      <div class="blur-box mx-1">
+                          <div class="pt-2 kn-d-flex">
+                              <p class="kn-text-white film-c-t">Tasodifiy filmlar&nbsp;&nbsp;</p>
+                          </div>
+                          <div id="tasodifiy" class="carousel slide mx-2 carousel-film">
+                          <div class="carousel-inner">
+                              {% for filmpart in tasodifiy %}
+                            <div class="carousel-item {% if forloop.first %}active {% endif %}">
+
+                             <a href="{{filmpart.get_absolute_url}}" class="col-6 col-md-4 col-lg-3 col-xxl-2 my-2 cardContainer">
+                                  <div class="card card-carousel">
+                                    <div class="card-img-div">
+                                      <div class="card-img-rating">
+                                        <i class="fa-solid fa-star"></i>
+                                        {{filmpart.kinomakon_rating}}%
+                                      </div>
+                                      <img class="card-img" src="{{filmpart.poster.url}}">
+                                    </div>
+                                       <div class="card-title">
+                                         <h5 class="card-title-in">
+                                          {{filmpart.title}}&nbsp;{% if filmpart.title_2 %}{{filmpart.title_2}}{% endif %}
+                                         </h5>
+                                         <p class="card-title-info">
+                                          {{filmpart.type}}
+                                            {{filmpart.janr}}
+                                            {% if filmpart.janr_2%}{{filmpart.janr_2}}{% endif %}
+                                             {% if filmpart.janr_3%}{{filmpart.janr_3}}{% endif %}
+                                         </p>
+                                           <!--CAROUSEL DOWN BUTTOns-->
+                                               <span class="carousel-down-butn c-d-left">
+                                                   <button  type="button" data-bs-target="#tasodifiy" data-bs-slide="prev" >
+                                                       <i class="fa-solid fa-chevron-left"></i>
+                                                   </button>
+                                               </span>
+
+                                               <span class="carousel-down-butn c-d-right">
+                                                   <button  type="button" data-bs-target="#tasodifiy" data-bs-slide="next" >
+                                                       <i class="fa-solid fa-chevron-right"></i>
+                                                   </button>
+                                               </span>
+                                               <!--CAROUSEL _DOWN BUTONS-->
+                                       </div>
+                                  </div>
+                                </a>
+
+                            </div>
+                              {% endfor  %}
+                          </div>
+                          <button class="carousel-control-prev " style="z-index:45;" type="button" data-bs-target="#tasodifiy" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                          </button>
+                          <button class="carousel-control-next " style="z-index:45;"   type="button" data-bs-target="#tasodifiy" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                          </button>
+                      </div>
+                       </div>
+                  </div>
+                  <!--Film NEWS-->
+                  <div class="col-12 col-sm-6 col-lg-4 ">
+                      <div class="blur-box mx-1">
+                          <div class="pt-2 kn-d-flex">
+                              <p class="kn-text-white film-c-t">Kino yangiliklari&nbsp;&nbsp;</p>
+                          </div>
+                          <div class=" mx-2 carousel-film">
+                          <div class="">
+                            <div class="">
+                             <a class="col-6 col-md-4 col-lg-3 col-xxl-2 my-2 cardContainer">
+                                  <div class="card card-carousel">
+                                       <div class="card-title">
+                                           <div class="row">
+                                               {% for filmnw in filmnews %}
+                                                 <a href="{% url 'filmnews:home' %}#{{filmnw.id}}" class="col-12 c-filmnews-card ">
+                                                     <div class="row">
+                                                         <div class="col-4 c-filmnews-img">
+                                                             <img style="height:100%;max-width:100%;"  src="{{filmnw.image.url}}" alt="{{filmnw.title}}">
+                                                         </div>
+                                                         <div class="col-8">
+                                                             <p style="color:#fff;display:inline-block">
+                                                                 {{filmnw.title}}
+                                                             </p>
+                                                         </div>
+                                                     </div>
+                                                   </a>
+                                               {% endfor %}
+                                           </div>
+                                       </div>
+                                  </div>
+                                </a>
+                            </div>
+                          </div>
+                      </div>
+                       </div>
+                  </div>
+                  <!--END-->
+              </div>
+          </div>
+            <!--END shu kabi-->
+        </div>
+    </div>
+</section>
+{% endblock %}

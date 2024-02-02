@@ -1,0 +1,397 @@
+{% extends 'base.html'  %}
+
+
+{% load static  %}
+
+
+{% block title %} {% if user.first_name %}{{user.first_name | title }} {{user.last_name | title }}{% else %}{{user.username | title}}{% endif %} profili | Kinomakon{% endblock %}
+
+{% block content %}
+<div class="kn-top-margin-sm">
+    &nbsp;
+</div>
+
+<style>
+.profile-top{
+   position:relative
+   border-radius:20px 20px 0 0;
+}
+    .profile-bottom{
+     border-radius:0 0 15px 15px;
+     }
+
+    /*pic styles*/
+    .profile-img{
+      border-radius:50%;
+      overflow:hidden;
+      width:100px;
+      height:100px;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      border:1px solid white;
+    }
+    .profile-img img{
+      position:relative;
+      width:100px;
+      min-height:100px;
+      transition:all 0.4s ease-out;
+    }
+
+    .profile-top-title{
+       display:flex;
+       justify-content:start;
+       align-items:center
+    }
+    .profile-top-title h4 p{
+      font-weight:300;
+    }
+    .as_p{
+     display:block;
+     text-decoration:none;
+     color:#fff;
+    }
+
+    .profile-center div .as_p{
+      margin:0;
+      padding:0;
+      position:relative;
+      top:-1rem;
+    }
+    .profile-center div .as_p code{
+      font-weight:100;
+    }
+
+    .add-pic{
+     position:absolute;
+     text-decoration:none;
+     display:flex;
+     justify-content:center;
+     align-items:center;
+     border-radius:50%;
+     width:1.5rem;
+     height:1.5rem;
+     border:1px solid #fff;
+     background-color:#262626;
+     color:#fff;
+     top:1rem;
+     left:0.5rem;
+    }
+    .carousel{
+      height:12rem;
+    }
+    .users-carousel{
+     display:block;
+     height:16rem;
+     text-decoration:none;
+     color:white;
+    }
+    .oneuser-box{
+     display:flex;
+     justify-content:start;
+     align-items:center;
+     height:8rem;
+    }
+    .profile-img:hover img{
+     transform:scale(1.1);
+    }
+</style>
+<nav class="kn-breadcrumb-box mt-2 ">
+
+    <div class="kn-breadcrumb my-4">
+        <a class="" href="{% url 'film:home' %}"><i class="fa-solid fa-house"></i>&nbsp;Kinomakon</a><span> >> </span>
+      {% block profile %}
+        <a class="" >Sizning Profilingiz</a>
+    </div>
+</nav>
+
+<div class="container mb-5">
+
+   <!--profile top section-->
+   <div class="blur-box profile-top ">
+      <div class="row">
+          <div class="profile-img m-3 col-4 col-md-3">
+              <img src="{{user.picture.url}}">
+          </div>
+          <a class="add-pic" href="{% url 'film:profile-edit' %}">
+                  <i class="fa-solid fa-camera-retro"></i>
+          </a>
+           <div class="profile-top-title ms-3 col-8 col-md-9">
+               <h4>
+                   {% if user.first_name %}
+                   {{user.first_name | title}}&nbsp;{{user.last_name}}
+                   <p class="kn-text-smaller">{{user.username}}</p>
+                   {% else %}
+                   {{user.username | title }}
+                   {% endif %}
+               </h4>
+           </div>
+       </div>
+   </div>
+    <div class="profile-center">
+       <div class=" mx-1 mx-md-2 my-2">
+           <!--Username-->
+           <p class="kn-text-small">Foydalanuvchi nomi:</p>
+           <a class="as_p" href="{% url 'film:profile-edit' %}">{{user.username | title }}</a>
+           <!--first_name-->
+           {% if user.first_name %}
+           <p class="kn-text-small">Ismingiz:</p>
+           <a class="as_p" href="{% url 'film:profile-edit' %}">{{user.first_name | title }}&nbsp;{{user.last_name | title }}</a>
+           {% else %}
+           <p class="kn-text-small">Ismingiz:</p>
+           <a class="as_p"  href="{% url 'film:profile-edit' %}" style="color:#757575">kiritilmagan</a>
+           {% endif %}
+
+           <p class="kn-text-small">Emailingiz:</p>
+           {% if user.email %}
+           <a class="as_p kn-text-smaller" href="{% url 'film:profile-edit' %}">{{user.email}}</a>
+           {% else %}
+           <a class="as_p" style="color:#757575" href="{% url 'film:profile-edit' %}">kiritilmagan</a>
+           {% endif %}
+           <!--Bio-->
+           <p class="kn-text-small">Siz haqingizda:</p>
+           {% if user.bio %}
+           <a class="as_p kn-text-smaller" href="{% url 'film:profile-edit' %}">{{user.bio}}</a>
+           {% else %}
+           <a class="as_p" style="color:#757575" href="{% url 'film:profile-edit' %}">kiritilmagan</a>
+           {% endif %}
+           <p class="kn-text-small">ID raqamingiz:</p>
+           <a class="as_p kn-text-smaller" href="{% url 'film:profile-edit' %}">{{request.user.second_id}}</a>
+           <a  href="{% url 'film:profile-edit' %}" class="butn py-1 px-2">
+               Tahrirlash
+           </a>
+           <a  href="{% url 'film:password-change' %}" class="butn py-1 px-2 ms-2">
+               Parolni almashtirish
+           </a>
+           <a  href="{% url 'users:login' %}" class="butn py-1 px-2 ms-2">
+               Boshqa akkauntdan kirish
+           </a>
+           <a  href="{% url 'users:logout' %}" class="butn py-1 px-2 ms-2" style="color:red;font-weight:200">
+               Akkauntdan chiqish
+           </a>
+       </div>
+       {% endblock %}
+    </div>
+    <div class="profile-bottom">
+
+    </div>
+</div>
+
+
+<section class="plus-tag-section">
+    <div class="container-fluid">
+        <div class="mx-1 mx-md-2 mb-5 mt-3">
+        <!--Shu kabi filmlar--><!--Faol foydalan--><!--Tasodifiy-filmlar-->
+          <div class="plus-section mx-2 my-5">
+              <div class="row">
+                  <!--SHu kabi filmlar-->
+                    <div class="col-12 col-sm-6 col-lg-4 ">
+                      <div class="blur-box mx-1">
+                          <div class="pt-2 kn-d-flex">
+                              <p class="kn-text-white film-c-t">
+                                  Yoqtirgan filmlaringiz
+                              </p>
+                          </div>
+                          <div id="yoqtirgan" class="carousel slide mx-2 carousel-film">
+                          <div class="carousel-inner">
+                              {% for film in yoqtirgan %}
+                            <div class="carousel-item {% if forloop.first %}active {% endif %}">
+
+                             <a href="{{film.film.get_absolute_url}}" class="col-6 col-md-4 col-lg-3 col-xxl-2 my-2 cardContainer">
+                                  <div class="card card-carousel">
+                                    <div class="card-img-div">
+                                      <div class="card-img-rating">
+                                        <i class="fa-solid fa-star"></i>
+                                        {{film.film.kinomakon_rating}}%
+                                      </div>
+                                      <img class="card-img card-img-carousel " src="{{film.film.poster.url}}" alt=" {{film.film.title}}">
+                                    </div>
+                                           <div class="card-title">
+
+                                             <h5 class="card-title-in">
+                                              {{film.film.title}}&nbsp;{% if film.film.title_2 %}{{film.film.title_2}}{% endif %}
+                                             </h5>
+                                             <p class="card-title-info">
+                                              {{film.film.type}}
+                                                {{film.film.janr}}
+                                                {% if film.film.janr_2%}{{film.film.janr_2}}{% endif %}
+                                                 {% if film.film.janr_3%}{{film.film.janr_3}}{% endif %}
+                                             </p>
+                                               <!--CAROUSEL DOWN BUTTOns-->
+                                               <span class="carousel-down-butn c-d-left">
+                                                   <button  type="button" data-bs-target="#yoqtirgan" data-bs-slide="prev" >
+                                                       <i class="fa-solid fa-chevron-left"></i>
+                                                   </button>
+                                               </span>
+
+                                               <span class="carousel-down-butn c-d-right">
+                                                   <button  type="button" data-bs-target="#yoqtirgan" data-bs-slide="next" >
+                                                       <i class="fa-solid fa-chevron-right"></i>
+                                                   </button>
+                                               </span>
+                                               <!--CAROUSEL _DOWN BUTONS-->
+                                           </div>
+                                  </div>
+                                </a>
+
+                            </div>
+                              {% endfor  %}
+                          </div>
+                          <button class="carousel-control-prev " style="z-index:45;" type="button" data-bs-target="#yoqtirgan" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                          </button>
+                          <button class="carousel-control-next " style="z-index:45;"   type="button" data-bs-target="#yoqtirgan" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                          </button>
+                      </div>
+                       </div>
+                  </div>
+                  <!--Saqlangan-->
+                  <div class="col-12 col-sm-6 col-lg-4 ">
+                      <div class="blur-box mx-1">
+                          <div class="pt-2 kn-d-flex">
+                              <p class="kn-text-white film-c-t">Saqlangan filmlaringiz&nbsp;&nbsp;</p>
+                          </div>
+                          <div id="saqlangan" class="carousel slide mx-2 carousel-film">
+                          <div class="carousel-inner">
+                              {% for film in saqlangan %}
+                            <div class="carousel-item {% if forloop.first %}active {% endif %}">
+
+                             <a href="{{film.film.get_absolute_url}}" class="col-6 col-md-4 col-lg-3 col-xxl-2 my-2 cardContainer">
+                                  <div class="card card-carousel">
+                                    <div class="card-img-div">
+                                      <div class="card-img-rating">
+                                        <i class="fa-solid fa-star"></i>
+                                        {{film.film.kinomakon_rating}}%
+                                      </div>
+                                      <img class="card-img" src="{{film.film.poster.url}}">
+                                    </div>
+                                       <div class="card-title">
+                                         <h5 class="card-title-in">
+                                          {{film.film.title}}&nbsp;{% if film.film.title_2 %}{{film.film.title_2}}{% endif %}
+                                         </h5>
+                                         <p class="card-title-info">
+                                          {{film.film.type}}
+                                            {{film.film.janr}}
+                                            {% if film.film.janr_2%}{{film.film.janr_2}}{% endif %}
+                                             {% if film.film.janr_3%}{{film.film.janr_3}}{% endif %}
+                                         </p>
+                                           <!--CAROUSEL DOWN BUTTOns-->
+                                               <span class="carousel-down-butn c-d-left">
+                                                   <button  type="button" data-bs-target="#saqlangan" data-bs-slide="prev" >
+                                                       <i class="fa-solid fa-chevron-left"></i>
+                                                   </button>
+                                               </span>
+
+                                               <span class="carousel-down-butn c-d-right">
+                                                   <button  type="button" data-bs-target="#saqlangan" data-bs-slide="next" >
+                                                       <i class="fa-solid fa-chevron-right"></i>
+                                                   </button>
+                                               </span>
+                                               <!--CAROUSEL _DOWN BUTONS-->
+                                       </div>
+                                  </div>
+                                </a>
+
+                            </div>
+                              {% endfor  %}
+                          </div>
+                          <button class="carousel-control-prev " style="z-index:45;" type="button" data-bs-target="#saqlangan" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                          </button>
+                          <button class="carousel-control-next " style="z-index:45;"   type="button" data-bs-target="#saqlangan" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                          </button>
+                      </div>
+                       </div>
+                  </div>
+                 <!--Tasodifiy-->
+                  <div class="col-12 col-sm-6 col-lg-4 ">
+                      <div class="blur-box mx-1">
+                          <div class="pt-2 kn-d-flex">
+                              <p class="kn-text-white film-c-t">Tasodifiy filmlar&nbsp;&nbsp;</p>
+                          </div>
+                          <div id="tasodifiy" class="carousel slide mx-2 carousel-film">
+                          <div class="carousel-inner">
+                              {% for film in tasodifiy %}
+                            <div class="carousel-item {% if forloop.first %}active {% endif %}">
+
+                             <a href="{{film.get_absolute_url}}" class="col-6 col-md-4 col-lg-3 col-xxl-2 my-2 cardContainer">
+                                  <div class="card card-carousel">
+                                    <div class="card-img-div">
+                                      <div class="card-img-rating">
+                                        <i class="fa-solid fa-star"></i>
+                                        {{film.kinomakon_rating}}%
+                                      </div>
+                                      <img class="card-img" src="{{film.poster.url}}">
+                                    </div>
+                                       <div class="card-title">
+                                         <h5 class="card-title-in">
+                                          {{film.title}}&nbsp;{% if film.title_2 %}{{film.title_2}}{% endif %}
+                                         </h5>
+                                         <p class="card-title-info">
+                                          {{film.film.type}}
+                                            {{film.janr}}
+                                            {% if film.janr_2%}{{film.janr_2}}{% endif %}
+                                             {% if film.janr_3%}{{film.janr_3}}{% endif %}
+                                         </p>
+                                           <!--CAROUSEL DOWN BUTTOns-->
+                                               <span class="carousel-down-butn c-d-left">
+                                                   <button  type="button" data-bs-target="#tasodifiy" data-bs-slide="prev" >
+                                                       <i class="fa-solid fa-chevron-left"></i>
+                                                   </button>
+                                               </span>
+
+                                               <span class="carousel-down-butn c-d-right">
+                                                   <button  type="button" data-bs-target="#tasodifiy" data-bs-slide="next" >
+                                                       <i class="fa-solid fa-chevron-right"></i>
+                                                   </button>
+                                               </span>
+                                               <!--CAROUSEL _DOWN BUTONS-->
+                                       </div>
+                                  </div>
+                                </a>
+
+                            </div>
+                              {% endfor  %}
+                          </div>
+                          <button class="carousel-control-prev " style="z-index:45;" type="button" data-bs-target="#tasodifiy" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                          </button>
+                          <button class="carousel-control-next " style="z-index:45;"   type="button" data-bs-target="#tasodifiy" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                          </button>
+                      </div>
+                       </div>
+                  </div>
+                  <!--END-->
+              </div>
+          </div>
+            <!--END shu kabi-->
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}
+<!--
+ saqlangan filmlar
+ rasmni almashtirish
+ yoqtirgan filmlar
+
+ rasmni almashtirish
+ username almashtirish
+ parolni o'zgartirish
+
+ email, first last name o'zgartirish ommaviy yoki maxfiyligi
+
+ #sal keyinroq
+ boshqa userlar
+
+ -->

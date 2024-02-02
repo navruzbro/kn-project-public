@@ -1,0 +1,123 @@
+.filmnews-nav-img{
+  display:inline-block;
+  width:15rem;
+
+  overflow:hidden;
+  border-radius:0 10% 10% 0;
+}
+.filmnews-nav-img img{
+  width:15rem;
+  border-radius:0 10% 10% 0;
+  transition:all 0.1s ease-in-out;
+}
+.filmnews-nav-img:hover img{
+ transform:scale(1.1);
+}
+.filmnews-container{
+ display:flex;
+ justify-content:center;
+ padding:1rem;
+}
+
+.filmnews-item{
+ position:relative;
+
+}
+.filmnews-item{
+  border:10px 10px 10px 0;
+  border:1px solid black
+}
+.filmnews-item a{
+ width:100%;
+ display:inline-block;
+ text-decoration:none;
+ color:black;
+ }
+ .film-item a .filmnews-img-card{
+width:100%;
+  }
+
+.filmnews-item a .filmnews-img-card img,
+.filmnews-item a .filmnews-img-card video{
+  width:100%;
+  border-radius:10px 10px 0 0;
+}
+
+
+.filmnews-item a p{
+    position:relative;
+    top:-10px;
+    font-size:0.9rem;
+     color:#fffaff;
+     font-weight:200;
+     text-decoration:italic;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+.pagination-box{
+    display: inline-block;
+    border-radius:4px;
+}
+.pagination-box a{
+    border: 0.5px solid #212121;
+    text-decoration: none;
+    color:#fff;
+    padding:3px 10px;
+    margin:0;
+    font-size:1rem;
+}
+@media(max-width:576px){
+ .pagination-box a{
+   padding:2px 9px;
+   font-size:0.9rem;
+
+ }
+}
+@media(max-width:350px){
+.pagination-box{
+ padding:0;
+ margin:0;
+}
+ .pagination-box a{
+   padding:1.5px 7px;
+   font-size:0.8rem;
+  }
+}
+.pagination-box .butn-2{
+    border-left:none;
+}
+.padination-box .pagination-1{
+    border-left:none;
+}
+.pagination-box .pag-active{
+    display:inline-block;
+    background-color: transparent;
+    box-shadow: /*3px 3px 10px rgba(0,0,0,1),
+        -1px -1px 6px rgba(255, 255, 255, 0.4), */
+        inset 3px 3px 10px rgba(0,0,0,1),
+        inset -1px -1px 6px rgba(255, 255, 255, 0.4);
+
+    transition: all 0.2s ease-in-out ;
+    backdrop-filter: blur(20px);
+    color:#ffffff;
+    text-decoration: none;
+}
+.pagination-box a:hover{
+    background: #212121;
+}
+
+.down-buttons{
+    display: flex;
+    justify-content: center;
+}

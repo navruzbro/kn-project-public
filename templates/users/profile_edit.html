@@ -1,0 +1,80 @@
+{% extends 'users/profile.html' %}
+
+
+{% block title %}Ma'lumotlarni o'zgartirish{% endblock %}
+
+
+{% block profile %}
+<a class="" >Sizning Profilingiz</a>
+    </div>
+</nav>
+
+<div class="container mb-5">
+
+   <!--profile top section-->
+   <div class="blur-box profile-top ">
+      <div class="row">
+          <div class="profile-img m-3 col-4 col-md-3">
+              <img src="{{user.picture.url}}">
+
+          </div>
+          <a class="add-pic">
+                  <i class="fa-solid fa-camera-retro"></i>
+          </a>
+           <div class="profile-top-title ms-3 col-8 col-md-9">
+               <h4>
+                   {% if user.first_name %}
+                   {{user.first_name | title}}&nbsp;{{user.last_name}}
+                   <p class="kn-text-smaller">{{user.username}}</p>
+                   {% else %}
+                   {{user.username | title }}
+                   {% endif %}
+               </h4>
+           </div>
+       </div>
+   </div>
+    <div class="profile-center">
+       <div class=" mx-1 mx-md-2 my-2">
+           <form method="post"  enctype="multipart/form-data">
+               <style>
+                       input,
+                       textarea{
+                          display:block;
+                         background-color: transparent;
+                            border:none;
+                            padding:0.3rem 0.7rem;
+                            color:#fff;
+                            box-shadow: /*3px 3px 10px rgba(0,0,0,1),
+                                -1px -1px 6px rgba(255, 255, 255, 0.4), */
+                                inset 3px 3px 10px rgba(0,0,0,1),
+                                inset -1px -1px 6px rgba(255, 255, 255, 0.4);
+                            border-radius:10px;
+                            transition: all 0.2s ease-in-out ;
+                            backdrop-filter: blur(20px);
+                       }
+                       .errorlist li,
+                       .error-message-custom{
+                         color:red;
+                         font-weight:200;
+                         font-size:0.8rem;
+                       }
+                   #picture-clear_id{
+                     position:absolute;
+                     opacity:0;
+                   }
+                   .helptext{
+                     font-size:0.7rem;
+                     font-weight:200;
+                   }
+                   </style>
+               {% csrf_token %}
+               {% if error_message %}<p class="error-message-custom">{{error_message}}</p>{% endif %}
+               {% block pass %}
+               {{user_form.as_p}}
+               {% endblock %}
+               <button class="butn py-1 px-2" type="submit" >
+                   Saqlash
+               </button>
+           </form>
+       </div>
+{% endblock %}

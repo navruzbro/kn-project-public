@@ -1,0 +1,827 @@
+{% extends 'base.html' %}
+
+{# Hitcount -- KO'rishlarni aniqlash #}
+{% load hitcount_tags %}
+{% load static %}
+{% block title %}{{film.title}} {% if film.title_2 %}{{film.title_2}}{% endif %} | Kinomakon{% endblock %}
+
+
+<!--META TAGS-->
+{% block description %}
+{{film.title}} {% if film.title_2 %}{{film.title_2}} {% endif %}{% if film.title_addtext %} {{film.title_addtext}} {% endif %} o'zbek tilida
+{% endblock %}
+
+{% block keywords %}
+{{film.title}} {% if film.title_2 %}{{film.title_2}} {% endif %}{% if film.title_addtext %} {{film.title_addtext}} {% endif %} o'zbek tilida
+{% endblock %}
+
+{% block ogtitle %}
+{{film.title}} {% if film.title_2 %}{{film.title_2}}{% endif %} | Kinomakon
+{% endblock %}
+
+{% block ogurl %}
+{{film.get_absolute_url}}
+{% endblock %}
+
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css-styles/film-add.css' %}">
+<style>
+    h1{
+    white-space:inherit;
+    line-height:2.2rem
+    }
+
+    @media(max-width:1.5rem){
+      h1{line-height:1.5rem}
+    }
+</style>
+
+
+{% if film.filmni_korsatmaslik %}
+<div class="kn-top-margin-sm">
+    &nbsp;
+</div>
+<nav class="kn-breadcrumb-box mt-2 ">
+
+          <div class="kn-breadcrumb">
+              <a class="" href="{% url 'film:home'%}">Kinomakon</a><span> >> </span>
+              <a class="" href="{% url 'film:all-films' %}">Barcha filmlar</a><span> >> </span>
+               <a class="brd-activ">{{film.title}}&nbsp;{% if film.title_2 %}{{film.title_2}}{% endif %}</a>
+          </div>
+</nav>
+
+<p class="m-3 p-2 blur-box">{{ film.filmni_korsatmaslik | safe }}</p>
+{% else %}
+   <!--Tizer-->
+ {% if film.teaser %}
+   <div class="film-tizer-box">
+          <div class="kn-teaser-gradient"></div>
+          <video id="film-tizer" autoplay loop muted  poster="{%if film.poster_16_9%}{{film.poster_16_9.url}}{% else %}{{film.poster.url}}{% endif %}">
+              <source src="{{film.teaser.url}}">
+          </video>
+          <div class="film-tizer-text mx-3">
+            <button id="mute-button-tizer" class="butn-2 kn-text-white"><i class="fa-solid fa-volume-high"></i></button>
+        
+            <br>
+            <h1 class=" mb-2 kn-text-white film-tizer-title " style="white-space:inherit;" id="film-tizer-title">
+                {{film.title}}&nbsp;{% if film.title_2 %}{{film.title_2}}{% endif %}
+                <img src="{% static 'media/firee-gif.gif' %}"style="width:1.4rem;padding:0;margin:0;position:relative;">
+            </h1>
+            <div class="film-tizer-hidden">  
+              <span class="kn-text-white film-tizer-janr mb-1 "><a href="#" class="kn-text" style="color:#00b4d8">#{{film.type}}</a></span>
+              <span class="kn-text-white film-tizer-janr mb-1 "><a href="{{film.janr_url}}" class="kn-text" style="color:#00b4d8">#{{film.janr}}</a></span>
+              {% if film.janr_2 %}
+                <span class="kn-text-white film-tizer-janr mb-1 "><a href="../../janr/{{film.janr_2}}/" class="kn-text" style="color:#00b4d8">#{{film.janr_2}}</a></span>
+                {% endif %}
+                {% if film.janr_3 %}
+                <span class="kn-text-white film-tizer-janr mb-1 "><a href="../../janr/{{film.janr_3}}/" class="kn-text" style="color:#00b4d8">#{{film.janr_3}}</a></span>
+                {% endif %}
+            </div>
+            <div class="tizer-butns">
+              <a class="butn-3 px-2 py-1 kn-text-white" href="#custom-video-player">Filmni ko'rish</a>
+              <a class="butn-3 px-2 py-1 kn-text-white" href="#yuklab-olish" >Yuklab olish</a>
+            </div>
+          </div>
+    </div>
+   {% else %}
+<div class="kn-top-margin-sm">
+    &nbsp;
+</div>
+   {% endif %}
+    <!--endtizer-->
+    <!--Breadcrumb-->
+    <nav class="kn-breadcrumb-box mt-2  mx-1 mx-md-2 ">
+           
+          <div class="kn-breadcrumb">
+              <a class="" href="{% url 'film:home'%}">Kinomakon</a><span> >> </span>
+              <a class="" href="{% url 'film:all-films' %}">Barcha filmlar</a><span> >> </span>
+               <a class="">{{film.title}}&nbsp;{% if film.title_2 %}{{film.title_2}}{% endif %}</a>
+          </div>
+    </nav>
+{% if film.teaser %}{% else %}
+
+<h1 class="mx-1 mx-md-2 my-2" id="film-title">
+    {{film.title}}
+    {% if film.title_2 %}{{film.title_2}}{% endif %}
+    {% if film.title_addtext %}{{film.title_addtext}}<img src="{% static 'media/firee-gif.gif' %}"style="width:1.4rem;padding:0;margin:0;position:relative;">{% endif %}
+</h1>
+{% endif %}
+    <!--FILM CARD-->
+    
+    <div class=" m-3  film-card z-index-10">
+      <div class="circle-custom"></div>
+      <div class="row  p-2 mx-1 mx-md-2 blur-box">
+          <div class="col-12 col-md-3  film-img-box">
+            <div class="m-3 film-img">
+                <div class="detail-film-poster">
+                    <img class="my-2" src="{{film.poster.url}}"  alt="{{film.title}} posteri">
+                </div>
+                Film reytingi:
+              <div class="row film-rate">
+                
+                <br>
+                <div class="col">
+                    <span><img src="{% static 'media/kinomakon.png'%}"></span>
+                    <span class="kn-rat">{{film.kinomakon_rating}}%</span>
+                </div>
+                <div class="col">
+                  <span><img src="{% static 'media/imdb.png'%}"></span>
+                  {{film.imdb_rating}}%
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-9 my-1 my-md-3 mb-3 film-body">
+             <p class="film-like">
+                <span>
+                  <label class="like-container" id="like">
+                      {% if request.user.is_authenticated %}
+                      <a class="like-btn" data-post-id="777">
+                          <svg class="like-svg" id="Glyph" version="1.1" viewBox="0 0 32 32" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <path d="M29.845,17.099l-2.489,8.725C26.989,27.105,25.804,28,24.473,28H11c-0.553,0-1-0.448-1-1V13  c0-0.215,0.069-0.425,0.198-0.597l5.392-7.24C16.188,4.414,17.05,4,17.974,4C19.643,4,21,5.357,21,7.026V12h5.002  c1.265,0,2.427,0.579,3.188,1.589C29.954,14.601,30.192,15.88,29.845,17.099z" id="XMLID_254_"></path><path d="M7,12H3c-0.553,0-1,0.448-1,1v14c0,0.552,0.447,1,1,1h4c0.553,0,1-0.448,1-1V13C8,12.448,7.553,12,7,12z   M5,25.5c-0.828,0-1.5-0.672-1.5-1.5c0-0.828,0.672-1.5,1.5-1.5c0.828,0,1.5,0.672,1.5,1.5C6.5,24.828,5.828,25.5,5,25.5z" id="XMLID_256_"></path></svg>
+                          <span class="like-count">{{likes_count}}</span>
+                      </a>
+                      {% else %}
+                      <a href="{% url 'users:signup' %}"  data-post-id="777">
+                          <svg class="like-svg" id="Glyph" version="1.1" viewBox="0 0 32 32" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <path d="M29.845,17.099l-2.489,8.725C26.989,27.105,25.804,28,24.473,28H11c-0.553,0-1-0.448-1-1V13  c0-0.215,0.069-0.425,0.198-0.597l5.392-7.24C16.188,4.414,17.05,4,17.974,4C19.643,4,21,5.357,21,7.026V12h5.002  c1.265,0,2.427,0.579,3.188,1.589C29.954,14.601,30.192,15.88,29.845,17.099z" id="XMLID_254_"></path><path d="M7,12H3c-0.553,0-1,0.448-1,1v14c0,0.552,0.447,1,1,1h4c0.553,0,1-0.448,1-1V13C8,12.448,7.553,12,7,12z   M5,25.5c-0.828,0-1.5-0.672-1.5-1.5c0-0.828,0.672-1.5,1.5-1.5c0.828,0,1.5,0.672,1.5,1.5C6.5,24.828,5.828,25.5,5,25.5z" id="XMLID_256_"></path></svg>
+                          <span class="like-count">{{likes_count}}</span>
+                      </a>
+                      {% endif %}
+                </label>
+                </span>
+                <span>
+                  <label class="dislike-container" id="dislike">
+                      {% if request.user.is_authenticated %}
+                    <a  class="dislike-btn">
+                    <svg class="dislike-svg" id="Glyph" style="{% if dislike_active == 'true' %}fill:rgb(185, 51, 51);{% endif %}" version="1.1" viewBox="0 0 32 32" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M2.156,14.901l2.489-8.725C5.012,4.895,6.197,4,7.528,4h13.473C21.554,4,22,4.448,22,5v14  c0,0.215-0.068,0.425-0.197,0.597l-5.392,7.24C15.813,27.586,14.951,28,14.027,28c-1.669,0-3.026-1.357-3.026-3.026V20H5.999  c-1.265,0-2.427-0.579-3.188-1.589C2.047,17.399,1.809,16.12,2.156,14.901z" id="XMLID_259_"></path><path d="M25.001,20h4C29.554,20,30,19.552,30,19V5c0-0.552-0.446-1-0.999-1h-4c-0.553,0-1,0.448-1,1v14  C24.001,19.552,24.448,20,25.001,20z M27.001,6.5c0.828,0,1.5,0.672,1.5,1.5c0,0.828-0.672,1.5-1.5,1.5c-0.828,0-1.5-0.672-1.5-1.5  C25.501,7.172,26.173,6.5,27.001,6.5z" id="XMLID_260_"></path></svg>
+                    </a>
+                      {% else %}
+                       <a  href="{% url 'users:signup' %}">
+                           <svg class="dislike-svg" id="Glyph" style="{% if dislike_active == 'true' %}fill:rgb(185, 51, 51);{% endif %}" version="1.1" viewBox="0 0 32 32" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M2.156,14.901l2.489-8.725C5.012,4.895,6.197,4,7.528,4h13.473C21.554,4,22,4.448,22,5v14  c0,0.215-0.068,0.425-0.197,0.597l-5.392,7.24C15.813,27.586,14.951,28,14.027,28c-1.669,0-3.026-1.357-3.026-3.026V20H5.999  c-1.265,0-2.427-0.579-3.188-1.589C2.047,17.399,1.809,16.12,2.156,14.901z" id="XMLID_259_"></path><path d="M25.001,20h4C29.554,20,30,19.552,30,19V5c0-0.552-0.446-1-0.999-1h-4c-0.553,0-1,0.448-1,1v14  C24.001,19.552,24.448,20,25.001,20z M27.001,6.5c0.828,0,1.5,0.672,1.5,1.5c0,0.828-0.672,1.5-1.5,1.5c-0.828,0-1.5-0.672-1.5-1.5  C25.501,7.172,26.173,6.5,27.001,6.5z" id="XMLID_260_"></path></svg>
+                        </a>
+                      {% endif %}
+                 </label>
+
+
+                </span>
+                 &nbsp;&nbsp;
+                <span>
+                    {% if request.user.is_authenticated %}
+                  <a class="saved-film" style="font-size:1.1rem;margin-top:0.2rem;">
+                    <i class="fa-solid fa-bookmark"></i>
+                    <i class="fa-regular fa-bookmark"></i>
+                      <span class="kn-saved">{{savedd}}</span>
+                  </a>
+                    {% else %}
+                    <a class="saved-film" href="{% url 'users:signup' %}" >
+                    <i class="fa-solid fa-bookmark"></i>
+                    <i class="fa-regular fa-bookmark"></i>
+                        <span class="kn-saved">Saqlash</span>
+                  </a>
+                  {% endif %}
+                </span>
+
+             </p>
+
+            <br><div class="p-1  film-reports">
+                Nomi:
+                <span style="display:inline-block;font-weight:500;font-size:1rem;letter-spacing:0px">
+                  {{film.title}}&nbsp;{% if film.title_2 %}{{film.title_2}}{% endif %}
+                </span>
+              </div>
+              <br><p class="p-1  film-reports ">
+                Yili:
+                <span>
+                 <a href="{{film.year_url}}" >{{film.year}}</a>
+                </span>
+              </p>
+
+               <br><p class="p-1  film-reports ">
+                Tili:
+                <span>
+                  {{film.language}}{%if film.language_2%},&nbsp;{{film.language_2}}&nbsp;larida{%else%}da{%endif%}
+                </span>
+              </p>
+
+              {% if film.director %}
+              <br><p class="p-1 film-reports ">
+                Rejissiyor:
+                <span class=""><a href="{% url 'film:search' %}?q={{film.director}}">
+                  {{film.director}}
+                </a>
+                </span>
+              </p>
+              {% endif %}
+
+              <br><p class="p-1  film-reports ">
+                Film kodi:
+                <span class="">
+                  {{film.film_code}}(qidiruvga yozing va shu film chiqadi)
+                </span>
+              </p>
+
+              <br>
+              <p class="p-1  film-reports small-reports">
+              <!--Small reports-->
+                <span>
+                  <a href="{% url 'film:all-films' %}?turi={{film.type | lower }}">
+                    {{film.type}},
+                  </a>
+                    &nbsp;&nbsp;<b>|</b>&nbsp; Janri:&nbsp;
+                    <a href="{{film.janr_url}}">#{{film.janr}}</a>
+                    {% if film.janr_2 %},&nbsp;<a href="{{film.janr_2.janr_url}}">#{{film.janr_2}}</a>{% endif %}
+                    {% if film.janr_3 %},&nbsp;<a href="{{film.janr_3.janr_url}}">#{{film.janr_3}}</a>{% endif %}
+                    {% if film.janr_4 %},&nbsp;<a href="{{film.janr_4.janr_url}}">#{{film.janr_4}}</a>{% endif %}
+                    {% if film.janr_5 %},&nbsp;<a href="{{film.janr_5.janr_url}}">#{{film.janr_5}}</a>{% endif %}
+                    {% if film.janr_6 %},&nbsp;<a href="{{film.janr_6.janr_url}}">#{{film.janr_6}}</a>{% endif %}
+                </span>
+               {% if film.kinoolam.title%}
+                 &nbsp;&nbsp;<b>|</b>&nbsp;&nbsp;
+                <span>Kino olami:<a href="{{film.kinoolam_url}}">
+                  {{film.kinoolam.title}}
+                </a>
+                </span>
+               {% endif %}
+               &nbsp;&nbsp;<b>|</b>&nbsp;
+                <span> Davlati:&nbsp;
+                   <a href="{{film.country_url}}">{{film.country}}</a>
+                   <a href="{{film.country2.country_url}}">{% if film.country2 %}{{film.country2}}{% endif %}</a>
+                    <a href="{{film.country3.country_url}}">{% if film.country3 %}{{film.country3}}{% endif %}</a>
+                </span>
+
+             &nbsp;&nbsp;<b>|</b>&nbsp;
+              <span class="age-border">
+                  {{film.yosh_chegarasi}}+
+                </span>
+                {% if film.davomiy_soat %}&nbsp;&nbsp;<b>|</b>&nbsp;&nbsp;
+                     <span class="">
+                      {{film.davomiy_soat}}&nbsp;soat-u {{film.davomiy_minut}}&nbsp;minut
+                    </span>
+                 {% endif  %}
+              &nbsp;&nbsp;&nbsp;
+                {% if film.actors %}
+                  <span class="">&nbsp;&nbsp;<b>|</b>&nbsp;&nbsp;
+                      <span style="color:#fff">Rollarda:&nbsp;</span>{{film.actors }}
+                    </span>
+              {% endif %}
+              <br><i>(Ko'k yozuvni usitga bosing va shu nomdagi kategoriyalar bo'limiga o'ting!)</i>
+              </p>
+
+               <p style="font-size:0.6rem;font-weight:100;text-align:right;"><i><i class="fa-solid fa-eye"></i>{% get_hit_count for film %}&nbsp;&nbsp;{{film.create_time}}</i></p>
+
+          </div>
+      </div>
+    </div>
+    <div class="mx-3 mb-1 film-file">
+      <div class="film-file-inner row">
+        <div class="my-1 col-12 col-md-4  fii">
+          <a href="#film-vedio" class="py-2 px-5 kn-text-normal butn-2">
+            Online Ko'rish
+          </a>
+        </div>
+          {% if film.trailer%}
+        <div class="my-1 col-12 col-md-4 fii">
+          <button class="py-2 px-5 kn-text-normal butn-2 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#film-Trailer" aria-expanded="false" aria-controls="film-Trailer">
+            Treylerni ko'rish
+          </button>
+        </div>
+          {% else %}
+          {% if film.teaser %}
+            <div class="my-1 col-12 col-md-4 fii">
+          <a href="#film-tizer" class="py-2 px-5 kn-text-normal butn-2">
+            Treylerni ko'rish
+          </a>
+        </div>
+          {% endif %}
+         {% endif %}
+          
+
+          <div class="my-1 col-12 col-md-4 fii" id="accordionExample" >
+            
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="yuklab-olish">
+                <button class="py-2 px-5 kn-text-normal butn-2 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#film-download" aria-expanded="true" aria-controls="film-download">
+                  Yuklab olish
+                </button>
+              </h2>
+            </div>
+            
+        
+      </div>
+
+
+          <!----------------ACCARDION ----------------------->
+          <div class="accordion accordion-flush" id="film-TD">
+              <div class="">
+                <div id="film-download" class="accordion-collapse collapse" data-bs-parent="#Film-TD">
+                   <div class="film-file-inner row">
+                       {% if film.serialqism.all %}
+                           {% for serial in film.serialqism.all %}
+                             <div class="my-1 my-lg-3 col-12 col-md-3 installer-box">
+                                  <a class="botao" href="{{serial.href}}">
+                                    <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="mysvg"><g id="SVGRepo_bgCarrier" stroke-width="0">
+                                      </g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier">
+                                         <g id="Interface / Download">
+                                         <path id="Vector" d="M6 21H18M12 3V17M12 17L17 12M12 17L7 12" stroke="#f1f1f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                         </path>
+                                      </g> </g>
+                                    </svg>
+                                    <span class="texto">{{serial.title}}</span>
+                                  </a>
+                             </div>
+                           {% endfor %}
+                        {% else %}
+
+                                   {% if film.sifat360p %}
+                                 <div class="my-1 my-lg-3 col-12 col-md-3 installer-box">
+                                  <a class="botao" href="{{film.sifat360p}}">
+                                    <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="mysvg"><g id="SVGRepo_bgCarrier" stroke-width="0">
+                                      </g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier">
+                                         <g id="Interface / Download">
+                                         <path id="Vector" d="M6 21H18M12 3V17M12 17L17 12M12 17L7 12" stroke="#f1f1f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                         </path>
+                                      </g> </g>
+                                    </svg>
+                                    <span class="texto">360p past sifat</span>
+                                  </a>
+                                 </div>
+                                   {% endif %}
+                                  {% if film.sifat480p %}
+                                 <div class="my-1 my-lg-3 col-12 col-md-3 installer-box">
+                                  <a class="botao" href="{{film.sifat480p}}">
+                                    <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="mysvg"><g id="SVGRepo_bgCarrier" stroke-width="0">
+                                      </g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier">
+                                         <g id="Interface / Download">
+                                         <path id="Vector" d="M6 21H18M12 3V17M12 17L17 12M12 17L7 12" stroke="#f1f1f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                         </path>
+                                      </g> </g>
+                                    </svg>
+                                    <span class="texto">480p o'rtacha</span>
+
+                                  </a>
+                                 </div>
+                                   {% endif %}
+                                   {% if film.sifat720p %}
+                                   <div class="my-1 my-lg-3 col-12 col-md-3 installer-box">
+                                  <a class="botao" href="{{film.sifat720p}}">
+                                    <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="mysvg"><g id="SVGRepo_bgCarrier" stroke-width="0">
+                                      </g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier">
+                                         <g id="Interface / Download">
+                                         <path id="Vector" d="M6 21H18M12 3V17M12 17L17 12M12 17L7 12" stroke="#f1f1f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                         </path>
+                                      </g> </g>
+                                    </svg>
+                                    <span class="texto">720p yaxshi</span>
+                                  </a>
+                                 </div>
+                                   {% endif %}
+                                   {% if film.sifat1080p %}
+                                 <div class="my-1 my-lg-3  col-12 col-md-3 installer-box">
+                                  <a class="botao" href="{{film.sifat1080p}}">
+                                    <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="mysvg"><g id="SVGRepo_bgCarrier" stroke-width="0">
+                                      </g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier">
+                                         <g id="Interface / Download">
+                                         <path id="Vector" d="M6 21H18M12 3V17M12 17L17 12M12 17L7 12" stroke="#f1f1f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                         </path>
+                                      </g> </g>
+                                    </svg>
+                                    <span class="texto">1080p zo'r</span>
+                                  </a>
+                                 </div>
+
+                                   {% endif %}
+                                   {% if film.sifat2K %}
+                                 <div class="my-1 my-lg-3  col-12 col-md-3 installer-box">
+                                  <a class="botao" href="{{film.sifat2K}}">
+                                    <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="mysvg"><g id="SVGRepo_bgCarrier" stroke-width="0">
+                                      </g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier">
+                                         <g id="Interface / Download">
+                                         <path id="Vector" d="M6 21H18M12 3V17M12 17L17 12M12 17L7 12" stroke="#f1f1f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                         </path>
+                                      </g> </g>
+                                    </svg>
+                                    <span class="texto">2K super</span>
+                                  </a>
+                                 </div>
+
+                                {% endif %}
+                                {% if film.sifat4K %}
+                                 <div class="my-1 my-lg-3  col-12 col-md-3 installer-box">
+                                  <a class="botao" href="{{film.sifat4K}}">
+                                    <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="mysvg"><g id="SVGRepo_bgCarrier" stroke-width="0">
+                                      </g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier">
+                                         <g id="Interface / Download">
+                                         <path id="Vector" d="M6 21H18M12 3V17M12 17L17 12M12 17L7 12" stroke="#f1f1f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                         </path>
+                                      </g> </g>
+                                    </svg>
+                                    <span class="texto">4K eng zo'ri</span>
+                                  </a>
+                                 </div>
+                                {% endif %}
+
+                  {% endif %}
+                       <!---END accardion item-->
+               </div>
+              </div>
+                </div>
+              </div>
+          <div class="">
+              <div id="film-Trailer" class="accordion-collapse collapse" data-bs-parent="#Film-TD">
+                  {% if film.trailer %}
+                    <style>
+                       .film-trailer iframe{
+                        width:98vw!important;
+                        height:53vw!important;
+                        }
+                    </style>
+                    <div class="film-trailer" >
+                       {{film.trailer | safe }}
+                    </div>
+                   {% endif %}
+                </div>
+              </div>
+
+          </div>
+
+          <!-------------END accardion----------------------->
+
+      
+
+
+
+   <!----END FILMCARD----->
+    <!--film haqida-->
+        {% if film.bio%}
+    <h6 class="my-2  mx-1 mx-md-2 ">Film haqida qisqacha:</h6><hr class=" mx-1 mx-md-2 ">
+        <h6 class=" mx-1 mx-md-2 kn-text-smaller">{{film.title_addtext}}</h6>
+        <p class=" mx-1 mx-md-2 kn-text-small">
+            {{film.bio}}
+        </p>
+        {% endif %}
+    <!--FILM VEDIO-->
+<div class="my-5 pb-5 blur-box  mx-1 mx-md-2  " style="position:relative;" >
+  <div id="custom-video-player" class="">
+    <video id="film-vedio" style="width:100%!important;border-radius:10px 10px 0 0" controls poster="{%if film.poster_16_9%}{{film.poster_16_9.url}}{% else %}{{film.poster.url}}{% endif %}">
+           {% if film.serialqism.all %}
+              {% for serial in film.serialqism.all %}
+                <source  id="{{serial.title}}" src="{{serial.href}}" >
+                 Sizning brauzeringiz video tegini qo'llamaydi.
+                                   Yuklab olib ko'ring!
+                  <a href="{{serial.href}}" class="butn-2">{{serial.title}}</a>
+
+               {% endfor %}
+           {% else %}
+                {% if film.sifat1080p %}
+                <source  id="source1080p" src="{{film.sifat1080p}}" >
+                {% endif %}
+                {% if film.sifat720p %}
+                <source  id="source720p" src="{{film.sifat720p}}" >
+
+                {% endif %}
+                {% if film.sifat480p %}
+                <source  id="source480p" src="{{film.sifat480p}}" >
+
+                {% endif %}
+                {% if film.sifat360p %}
+                <source  id="source360p" src="{{film.sifat360p}}" >
+                {% endif %}
+                <!--Zaxira sifatlar bular juda tiniq 2K 4K-->
+                {% if film.sifat2K %}
+                 <source  id="source1440p" src="{{film.sifat2K}}" >
+
+                {% endif %}
+                {% if film.sifat4K %}
+                 <source  id="source2160p" src="{{film.sifat4K}}" >
+
+                {% endif %}
+                     Sizning brauzeringiz video tegini qo'llamaydi.
+                           Yuklab olib ko'ring!
+
+                  <a href="{% if film.sifat480p %}{{film.sifat480p}}{% else %}{% if film.sifat720p %}{{film.sifat720p}}{%else%}{{film.sifat1080p}}{%endif%}{%  endif %}    " class="butn-2">YUKLAB OLISH</a>
+
+           {% endif %}
+
+
+
+      
+    </video>
+
+
+    <div class="controls-vid">
+      <button id="play-pause-button" class="butn-2">O'ynatish</button>
+      
+      <button  class="butn-2" id="mute-button" class="butn-2">Ovozsiz</button>
+      </div>
+      <span class="">
+          {% if film.serialqism.all %}
+             Qismni tanlang:
+             {% for serial in film.serialqism.all %} <button class="butn-2 butn-2-hover" onclick="changeQuality('{{serial.title}}')">{{serial.title}}</button>{% endfor %}
+          {% else %}
+                Sifatni tanlang{% if film.sifat1080p %}(avto 1080p){% else %}{% if film.sifat720p %}(avto 720p){% else %}{% if film.sifat480p %}(avto 480p){%endif%}{%endif%}{%endif%}:
+                  {% if film.sifat360p %}
+                  <button class="butn-2 butn-2-hover" onclick="changeQuality('source360p')">360p Past sifat</button>
+                  {% endif %}
+                  {% if film.sifat480p %}
+                  <button class="butn-2 butn-2-hover" onclick="changeQuality('source480p')">480p O'rtacha</button>
+                  {% endif %}
+                  {% if film.sifat720p %}
+                  <button  class="butn-2 butn-2-hover" onclick="changeQuality('source720p')">720p Yaxshi </button>
+                 {% endif %}
+                 {% if film.sifat1080p %}
+                   <button class="butn-2 butn-2-hover"  onclick="changeQuality('source1080p')">1080p Zo'r</button>
+                 {% endif %}
+                 {% if film.sifat2K %}
+                  <button class="butn-2 butn-2-hover"  onclick="changeQuality('source1440p')">2K super</button>
+                 {% endif %}
+                 {% if film.sifat4K %}
+                  <button class="butn-2 butn-2-hover"  onclick="changeQuality('source2160p')">4K Eng superi</button>
+              {% endif %}
+
+          {% endif %}
+      </span>
+  </div>
+</div>
+    </div>
+
+<section class="plus-tag-section">
+    <div class="container-fluid">
+        <div class="mx-1 mx-md-2 mb-5 mt-3">
+
+          <!--FIlmning boshqa qismlari-->
+            {% if filmpartbormi == 'true' %}
+            <div class="filmpart">
+               <p class="butn-2 px-2 py-1" >
+                   Filmning barcha qismlari:
+               </p>
+                  <div class="row">
+                      {% for filmpart in filmparts %}
+                         <a href="{{filmpart.get_absolute_url}}" class="col-6 col-md-4 col-lg-3 col-xxl-2 my-2 cardContainer">
+                      <div class="circle-custom"></div>
+                      <div class="card">
+
+                        <div class="card-img-div">
+                          <div class="card-img-rating">
+                            <i class="fa-solid fa-star"></i>
+                            {{filmpart.kinomakon_rating}}%
+                          </div>
+                          <img class="card-img" src="{{filmpart.poster.url}}">
+                          <div class="card-img-text">
+                            <h6>
+                              {{filmpart.year}}, {{filmpart.country}}
+                            </h6>
+                            <p>
+                              {{filmpart.type}}
+                                {{filmpart.janr}}
+                                {% if filmpart.janr_2%}{{filmpart.janr_2}}{% endif %}
+                            </p>
+                          </div>
+                        </div>
+                           <div class="card-title">
+                             <h6 class="card-title-in">
+                              {{filmpart.title}}&nbsp;{% if filmpart.title_2 %}{{filmpart.title_2}}{% endif %}
+                             </h6>
+                             <p class="card-title-info">
+                              {{filmpart.type}}
+                                {{filmpart.janr}}
+                                {% if filmpart.janr_2%}{{filmpart.janr_2}}{% endif %}
+                             </p>
+                           </div>
+                      </div>
+                    </a>
+            {% endfor  %}
+                      </div>
+            </div>
+            {% endif %}
+            <!--END FIlm qism-->
+            <!--Kinoolam filmlari--->
+            {% if film.kinoolam %}
+            <div class="filmkinoolam mt-4">
+                <p class="butn-2 px-2 py-1" >
+                   {{film.kinoolam.title}} kino olami filmlari:
+               </p>
+                <div class="row">
+                    {% for filmpart in filmkinoolams %}
+                         <a href="{{filmpart.get_absolute_url}}" class="col-6 col-md-4 col-lg-3 col-xxl-2 my-2 cardContainer">
+                      <div class="circle-custom"></div>
+                      <div class="card">
+
+                        <div class="card-img-div">
+                          <div class="card-img-rating">
+                            <i class="fa-solid fa-star"></i>
+                            {{filmpart.kinomakon_rating}}%
+                          </div>
+                          <img class="card-img" src="{{filmpart.poster.url}}">
+                          <div class="card-img-text">
+                            <h6>
+                              {{filmpart.year}}, {{filmpart.country}}
+                            </h6>
+                            <p>
+                              {{filmpart.type}}
+                                {{filmpart.janr}}
+                                {% if filmpart.janr_2%}{{filmpart.janr_2}}{% endif %}
+                            </p>
+                          </div>
+                        </div>
+                           <div class="card-title">
+                             <h6 class="card-title-in">
+                              {{filmpart.title}}&nbsp;{% if filmpart.title_2 %}{{filmpart.title_2}}{% endif %}
+                             </h6>
+                             <p class="card-title-info">
+                              {{filmpart.type}}
+                                {{filmpart.janr}}
+                                {% if filmpart.janr_2%}{{filmpart.janr_2}}{% endif %}
+                             </p>
+                           </div>
+                      </div>
+                    </a>
+                    {% endfor  %}
+                    <div class="all-link mt-2 mb-3" style="display:flex;justify-content:center;">
+                          <a href="{{film.kinoolam_url}}" class="butn px-2 py-1 px-md-4 ">
+                              {{film.kinoolam.title}} - barcha filmlari*
+                          </a>
+                      </div>
+                </div>
+            </div>
+            {% endif %}
+       <!--END KINOOLAM-->
+
+        <!--Shu kabi filmlar--><!--Faol foydalan--><!--Tasodifiy-filmlar-->
+          <div class="plus-section mx-2 my-5">
+              <div class="row">
+                  <!--SHu kabi filmlar-->
+                    <div class="col-12 col-sm-6 col-lg-4 ">
+                      <div class="blur-box mx-1">
+                          <div class="pt-2 kn-d-flex">
+                              <p class="kn-text-white film-c-t">Shu kabi
+                                  {{film.type | lower }}lar
+                                  &nbsp;&nbsp;</p>
+                          </div>
+                          <div id="shukabifilmlar" class="carousel slide mx-2 carousel-film">
+                          <div class="carousel-inner">
+                              {% for filmpart in filmaslike %}
+                            <div class="carousel-item {% if forloop.first %}active {% endif %}">
+
+                             <a href="{{filmpart.get_absolute_url}}" class="col-6 col-md-4 col-lg-3 col-xxl-2 my-2 cardContainer">
+                                  <div class="card card-carousel">
+                                    <div class="card-img-div">
+                                      <div class="card-img-rating">
+                                        <i class="fa-solid fa-star"></i>
+                                        {{filmpart.kinomakon_rating}}%
+                                      </div>
+                                      <img class="card-img card-img-carousel " src="{{filmpart.poster.url}}">
+                                    </div>
+                                           <div class="card-title">
+
+                                             <h5 class="card-title-in">
+                                              {{filmpart.title}}&nbsp;{% if filmpart.title_2 %}{{filmpart.title_2}}{% endif %}
+                                             </h5>
+                                             <p class="card-title-info">
+                                              {{filmpart.type}}
+                                                {{filmpart.janr}}
+                                                {% if filmpart.janr_2%}{{filmpart.janr_2}}{% endif %}
+                                                 {% if filmpart.janr_3%}{{filmpart.janr_3}}{% endif %}
+                                             </p>
+                                               <!--CAROUSEL DOWN BUTTOns-->
+                                               <span class="carousel-down-butn c-d-left">
+                                                   <button  type="button" data-bs-target="#shukabifilmlar" data-bs-slide="prev" >
+                                                       <i class="fa-solid fa-chevron-left"></i>
+                                                   </button>
+                                               </span>
+
+                                               <span class="carousel-down-butn c-d-right">
+                                                   <button  type="button" data-bs-target="#shukabifilmlar" data-bs-slide="next" >
+                                                       <i class="fa-solid fa-chevron-right"></i>
+                                                   </button>
+                                               </span>
+                                               <!--CAROUSEL _DOWN BUTONS-->
+                                           </div>
+                                  </div>
+                                </a>
+
+                            </div>
+                              {% endfor  %}
+                          </div>
+                          <button class="carousel-control-prev " style="z-index:45;" type="button" data-bs-target="#shukabifilmlar" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                          </button>
+                          <button class="carousel-control-next " style="z-index:45;"   type="button" data-bs-target="#shukabifilmlar" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                          </button>
+                      </div>
+                       </div>
+                  </div>
+                  <!--Tasodifiy-filmlar-->
+                  <div class="col-12 col-sm-6 col-lg-4 ">
+                      <div class="blur-box mx-1">
+                          <div class="pt-2 kn-d-flex">
+                              <p class="kn-text-white film-c-t">Tasodifiy filmlar&nbsp;&nbsp;</p>
+                          </div>
+                          <div id="tasodifiy" class="carousel slide mx-2 carousel-film">
+                          <div class="carousel-inner">
+                              {% for filmpart in tasodifiy %}
+                            <div class="carousel-item {% if forloop.first %}active {% endif %}">
+
+                             <a href="{{filmpart.get_absolute_url}}" class="col-6 col-md-4 col-lg-3 col-xxl-2 my-2 cardContainer">
+                                  <div class="card card-carousel">
+                                    <div class="card-img-div">
+                                      <div class="card-img-rating">
+                                        <i class="fa-solid fa-star"></i>
+                                        {{filmpart.kinomakon_rating}}%
+                                      </div>
+                                      <img class="card-img" src="{{filmpart.poster.url}}">
+                                    </div>
+                                       <div class="card-title">
+                                         <h5 class="card-title-in">
+                                          {{filmpart.title}}&nbsp;{% if filmpart.title_2 %}{{filmpart.title_2}}{% endif %}
+                                         </h5>
+                                         <p class="card-title-info">
+                                          {{filmpart.type}}
+                                            {{filmpart.janr}}
+                                            {% if filmpart.janr_2%}{{filmpart.janr_2}}{% endif %}
+                                             {% if filmpart.janr_3%}{{filmpart.janr_3}}{% endif %}
+                                         </p>
+                                           <!--CAROUSEL DOWN BUTTOns-->
+                                               <span class="carousel-down-butn c-d-left">
+                                                   <button  type="button" data-bs-target="#tasodifiy" data-bs-slide="prev" >
+                                                       <i class="fa-solid fa-chevron-left"></i>
+                                                   </button>
+                                               </span>
+
+                                               <span class="carousel-down-butn c-d-right">
+                                                   <button  type="button" data-bs-target="#tasodifiy" data-bs-slide="next" >
+                                                       <i class="fa-solid fa-chevron-right"></i>
+                                                   </button>
+                                               </span>
+                                               <!--CAROUSEL _DOWN BUTONS-->
+                                       </div>
+                                  </div>
+                                </a>
+
+                            </div>
+                              {% endfor  %}
+                          </div>
+                          <button class="carousel-control-prev " style="z-index:45;" type="button" data-bs-target="#tasodifiy" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                          </button>
+                          <button class="carousel-control-next " style="z-index:45;"   type="button" data-bs-target="#tasodifiy" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                          </button>
+                      </div>
+                       </div>
+                  </div>
+                  <!--Film NEWS-->
+                  <div class="col-12 col-sm-6 col-lg-4 ">
+                      <div class="blur-box mx-1">
+                          <div class="pt-2 kn-d-flex">
+                              <p class="kn-text-white film-c-t">Kino yangiliklari&nbsp;&nbsp;</p>
+                          </div>
+                          <div class=" mx-2 carousel-film">
+                          <div class="">
+                            <div class="">
+                             <a class="col-6 col-md-4 col-lg-3 col-xxl-2 my-2 cardContainer">
+                                  <div class="card card-carousel">
+                                       <div class="card-title">
+                                           <div class="row">
+                                               {% for filmnw in filmnews %}
+                                                 <a href="{% url 'filmnews:home' %}#{{filmnw.id}}" class="col-12 c-filmnews-card">
+                                                     <div class="row">
+                                                         <div class="col-4 c-filmnews-img">
+                                                             <img style="height:100%;max-width:100%;"  src="{{filmnw.image.url}}" alt="{{filmnw.title}}">
+                                                         </div>
+                                                         <div class="col-8">
+                                                             <p style="color:#fff;display:inline-block">
+                                                                 {{filmnw.title}}
+                                                             </p>
+                                                         </div>
+                                                     </div>
+                                                   </a>
+                                               {% endfor %}
+                                           </div>
+                                       </div>
+                                  </div>
+                                </a>
+                            </div>
+                          </div>
+                      </div>
+                       </div>
+                  </div>
+                  <!--END-->
+              </div>
+          </div>
+            <!--END shu kabi-->
+        </div>
+    </div>
+</section>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="{% static 'js/likes.js' %}"></script>
+<script src="{% static 'js/saved_config.js' %}"></script>
+<script src="{% static 'js/vedio.js' %}"></script>
+{% endif %} {% endblock content %}

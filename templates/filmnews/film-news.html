@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Kino yangiliklari | Kinomakon {% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/filmnews.css' %}">
+<div class="kn-top-margin-sm">
+    &nbsp;
+</div>
+<!--breadcrumb-->
+<nav class="kn-breadcrumb-box mt-2 mx-1 mx-md-2">
+
+    <div class="kn-breadcrumb my-4">
+        <a class="" href="{% url 'film:home' %}">Kinomakon</a><span> >> </span>
+
+         <a class="" >Yangiliklar</a>
+    </div>
+</nav>
+<!--end breadcrumb-->
+<style>
+    .filmnews-item a .filmnews-img-card iframe,
+    .filmnews-item a .filmnews-img-card video,
+    .filmnews-item a .filmnews-img-card img{
+      width:100%;
+      border-radius:4px;
+    }
+    .filmnews-item{
+      border:10px;
+    }
+    .filmnews-item a h5{
+     position:relative;
+     font-size:1.5rem;
+     font-weight:500;
+     text-align:center;
+    }
+    .filmnews-item a p{
+    position:relative;
+    top:-10px;
+    font-size:1.2rem;
+    text-align:center;
+     color:#fffaff;
+     font-weight:200;
+     text-decoration:italic;
+    }
+    @media(max-width:576px){
+      .filmnews-item a h5{
+        font-size:1.1rem;
+      }
+      .filmnews-item a p{
+        font-size:0.95rem;
+      }
+    }
+
+    #film-tizer,
+    .filmnews-img-card
+    {
+     border-radius:10px 10px 0 0;
+    }
+
+</style>
+<div class="blur-box filmnews-container mx-4 mx-sm-3 mx-md-4 mx-lg-5 py-5">
+    <div class="row ">
+        {% for film in films %}
+
+            <div id="{{film.id}}" class="filmnews-item col-10 offset-1">
+                <a>
+                    {% if film.youtube %}
+                      <div class="filmnews-img-card">
+                          {{film.youtube | safe }}
+                      </div>
+                    {% else %}
+                    {% if film.video %}
+                        <div class='filmnews-img-card'>
+                            <video id="film-tizer" style="width:100%!important;height:auto;" autoplay loop muted  poster="{% if film.image %}{{film.image}}{% endif %}">
+                                 <source src="{{film.video.url}}">
+                            </video>
+                            <button id="mute-button-tizer" class="butn-2 kn-text-white" style="top:-2.8rem;left:1rem;position:relative"><i class="fa-solid fa-volume-high"></i></button>
+                        </div>
+                    {% else %}
+                    <div class="filmnews-img-card">
+                       <img src="{{film.image.url}}">
+                    </div>
+                    {% endif %}
+                    {% endif %}
+                    <h5 class="mt-1">{{film.title}}</h5>
+                    <p>{{ film.body | safe }}</p>
+                    <p style="font-size:0.6rem;font-weight:100;text-align:right;"><i>{{film.create_time}}</i></p>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+ <!---New paginator--->
+  <nav class="mb-5 mt-3 ms-2">
+                       <div class="blur-box pagination-box">
+                              {% if films.paginator.num_pages > 1 %}
+                              <div class="col-sm-12 col-md-8 ">
+                                <ul class="pagination">
+                                  {% if films.has_previous %}
+
+                                      <a data-page="1" href="?page=1">
+                                        &laquo;1
+                                      </a>
+                                    {% if films.previous_page_number > 1 %}
+
+                                        <a  data-page="{{films.previous_page_number}}"  href="?page={{ films.previous_page_number }}">
+                                          <i class="fa fa-angle-left"></i>
+                                        </a>
+
+                                    {% endif %}
+
+                                  {% endif %}
+
+                                  {% if films.previous_page_number > 1 %}
+                                      <a  data-page="{{films.number|add:'-1'}}" href="?page={{films.number|add:'-1'}}"> {{ films.number|add:"-1" }} </a>
+
+                                  {% endif %}
+
+                                  <a class="pag-active">{{ films.number }}</a>
+
+                                   {% if allfilms.paginator.num_pages > allfilms.number|add:'1'  %}
+
+                                      <a  data-page="{{films.number|add:'1'}}" href="?page={{films.number|add:'1'}}"> {{ films.number|add:"1" }} </a>
+
+
+                                      <a  data-page="{{films.number|add:'2'}}" href="?page={{films.number|add:'2'}}"> {{ films.number|add:"2" }} </a>
+                                  {% endif %}
+
+                                  {% if films.has_next %}
+
+                                      <a  data-page="{{films.next_page_number}}" href="?page={{ films.next_page_number }}">
+                                        <i class="fa fa-angle-right"></i>
+                                      </a>
+
+                                      <a  data-page="{{films.paginator.num_pages}}" href="?page={{films.paginator.num_pages}}">
+                                        {{ films.paginator.num_pages }}&raquo;
+                                      </a>
+
+                                  {% endif %}
+                                </ul>
+                              </div>
+                              {% endif %}
+
+                       </div>
+                   </nav>
+<!--END pagination-->
+<script src="{% static 'js/vedio.js' %}"></script>
+{% endblock %}

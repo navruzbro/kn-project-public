@@ -1,0 +1,212 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{search_query}} - qidiruv natijalari | Kinomakon {% endblock %}
+
+{% block content %}
+
+  <style>
+
+                       .pagination-box{
+                        display: inline-block;
+                        border-radius:4px;
+                    }
+                    .pagination-box a{
+                        border: 0.5px solid #212121;
+                        text-decoration: none;
+                        color:#fff;
+                        padding:3px 10px;
+                        margin:0;
+                        font-size:1rem;
+                    }
+                    @media(max-width:576px){
+                     .pagination-box a{
+                       padding:2px 9px;
+                       font-size:0.9rem;
+
+                     }
+                    }
+                    @media(max-width:350px){
+                    .pagination-box{
+                     padding:0;
+                     margin:0;
+                    }
+                     .pagination-box a{
+                       padding:1.5px 7px;
+                       font-size:0.8rem;
+                      }
+                    }
+                    .pagination-box .butn-2{
+                        border-left:none;
+                    }
+                    .padination-box .pagination-1{
+                        border-left:none;
+                    }
+                    .pagination-box .pag-active{
+                        display:inline-block;
+                        background-color: transparent;
+                        box-shadow: /*3px 3px 10px rgba(0,0,0,1),
+                            -1px -1px 6px rgba(255, 255, 255, 0.4), */
+                            inset 3px 3px 10px rgba(0,0,0,1),
+                            inset -1px -1px 6px rgba(255, 255, 255, 0.4);
+
+                        transition: all 0.2s ease-in-out ;
+                        backdrop-filter: blur(20px);
+                        color:#ffffff;
+                        text-decoration: none;
+                    }
+                    .pagination-box a:hover{
+                        background: #212121;
+                    }
+                  @media(max-width:768px){
+                 .film-filter-type a{font-size:0.8rem}
+                 .pagination-box-parent{
+                  display:flex;
+                  justify-content:center
+                }
+                   </style>
+<div class="kn-top-margin">
+
+</div>
+<!--breadcrumb-->
+<nav class="kn-breadcrumb-box mt-2 mx-1 mx-md-2">
+
+    <div class="kn-breadcrumb my-4">
+        <a class="" href="{% url 'film:home' %}">Kinomakon</a><span> >> </span>
+
+         <a class="" >{{search_query}} - qidiruvi natijalari</a>
+    </div>
+</nav>
+<!--end breadcrumb-->
+{% if allfilms %}
+<div class="all-film-section">
+    <div class="container-fluid mx-1 mx-md-2">
+
+         <div class="" id="filter-accordion">
+           <div class="accordion-item">
+             <div id="engsonggi" class="accordion-collapse collapse show" data-bs-parent="#filter-accordion">
+               <div class="accordion-body">
+                 <!--News -- All film and cartoons-->
+                 <div class="row ">
+                     {% for film in allfilms %}
+                   <!--CARD-->
+                   <a href="{{film.get_absolute_url}}" class="col-6 col-md-4 col-lg-3 col-xxl-2 my-2 cardContainer">
+                     <div class="circle-custom"></div>
+                     <div class="card">
+
+                       <div class="card-img-div">
+                         <div class="card-img-rating">
+                           <i class="fa-solid fa-star"></i>
+                           {{film.kinomakon_rating}}%
+                         </div>
+                         <img class="card-img" src="{{film.poster.url}}" alt="{{film.title}} {{film.title_2}}">
+                         <div class="card-img-text">
+                           <h6>
+                             {{film.year}}, {{film.country}}
+                           </h6>
+                           <p>
+                             {{film.type}}
+                                {{film.janr}}
+                                {% if film.janr_2%}{{film.janr_2}}{% endif %}
+                           </p>
+                         </div>
+                       </div>
+                          <div class="card-title">
+                            <h6 class="card-title-in">
+                            {{film.title}}&nbsp;{% if film.title_2 %}{{film.title_2}}{% endif %}
+                            </h6>
+                            <p class="card-title-info">
+                             {{film.type}},
+                                  {{film.janr}}
+                                  {% if film.janr_2 %},&nbsp;{{film.janr_2}}{% endif %}
+                                  {% if film.janr_3 %},&nbsp;{{film.janr_3}}{% endif %}
+                            </p>
+                          </div>
+                     </div>
+                   </a>
+                   <!--END---CARD-->
+                     {% endfor %}
+
+                 </div>
+                 <!--//News-->
+                  <!---New paginator--->
+                   <nav class="mb-5 mt-3 pagination-box-parent">
+                       <div class="blur-box pagination-box">
+                              {% if allfilms.paginator.num_pages > 1 %}
+                              <div class="col-sm-12 col-md-8 ">
+                                <ul class="pagination">
+                                  {% if allfilms.has_previous %}
+
+                                      <a data-page="1" href="?page=1&q={{search_query}}">
+                                        &laquo;1
+                                      </a>
+                                    {% if allfilms.previous_page_number > 1 %}
+
+                                        <a  data-page="{{allfilms.previous_page_number}}"  href="?page={{ allfilms.previous_page_number }}&q={{search_query}}">
+                                          <i class="fa fa-angle-left"></i>
+                                        </a>
+
+                                    {% endif %}
+
+                                  {% endif %}
+
+                                  {% if allfilms.previous_page_number > 3 %}
+                                       <a  data-page="{{allfilms.number|add:'-2'}}" href="?page={{allfilms.number|add:'-3'}}&q={{search_query}}"> {{ allfilms.number|add:"-3" }} </a>
+                                   {% endif %}
+                                    {% if allfilms.previous_page_number > 2 %}
+                                      <a  data-page="{{allfilms.number|add:'-2'}}" href="?page={{allfilms.number|add:'-2'}}&q={{search_query}}"> {{ allfilms.number|add:"-2" }} </a>
+                                    {% endif %}
+                                    {% if allfilms.previous_page_number > 1 %}
+                                      <a  data-page="{{allfilms.number|add:'-1'}}" href="?page={{allfilms.number|add:'-1'}}&q={{search_query}}"> {{ allfilms.number|add:"-1" }} </a>
+                                  {% endif %}
+
+                                  <a class="pag-active">{{ allfilms.number }}</a>
+
+                                  {% if allfilms.paginator.num_pages > allfilms.number|add:'1'  %}
+
+                                      <a  data-page="{{allfilms.number|add:'1'}}" href="?page={{allfilms.number|add:'1'}}&q={{search_query}}"> {{ allfilms.number|add:"1" }} </a>
+                                    {% endif %}
+                                   {% if allfilms.paginator.num_pages > allfilms.number|add:'2'  %}
+                                      <a  data-page="{{allfilms.number|add:'2'}}" href="?page={{allfilms.number|add:'2'}}&q={{search_query}}"> {{ allfilms.number|add:"2" }} </a>
+                                    {% endif %}{% if allfilms.paginator.num_pages > allfilms.number|add:'3'  %}
+                                      <a  data-page="{{allfilms.number|add:'2'}}" href="?page={{allfilms.number|add:'3'}}&q={{search_query}}"> {{ allfilms.number|add:"3" }} </a>
+                                       {% endif %}{% if allfilms.paginator.num_pages > allfilms.number|add:'4'  %}
+                                    <a  data-page="{{allfilms.number|add:'2'}}" href="?page={{allfilms.number|add:'4'}}&q={{search_query}}"> {{ allfilms.number|add:"4" }} </a>
+
+                                    <a  data-page="{{allfilms.number|add:'2'}}" href="?page={{allfilms.number|add:'5'}}&q={{search_query}}"> {{ allfilms.number|add:"5" }} </a>
+                                  {% endif %}
+
+                                  {% if allfilms.has_next %}
+
+                                      <a  data-page="{{allfilms.next_page_number}}" href="?page={{ allfilms.next_page_number }}&q={{search_query}}">
+                                        <i class="fa fa-angle-right"></i>
+                                      </a>
+
+
+
+                                      <a  data-page="{{allfilms.paginator.num_pages}}" href="?page={{allfilms.paginator.num_pages}}&q={{search_query}}">
+                                        {{ allfilms.paginator.num_pages }}&raquo;
+                                      </a>
+
+                                  {% endif %}
+                                </ul>
+                              </div>
+                              {% endif %}
+
+                       </div>
+                   </nav>
+                   <!--END pagination-->
+               </div>
+             </div>
+           </div>
+         </div>
+    </div>
+</div>
+{% else %}
+<div class=" blur-box px-1 py-2 py-4 px-md-4 mb-5 mt-3 mx-2 mx-md-5">
+    <h4>
+        <b>Film topilmadi!</b><i> Iltimos imlo xatolarsiz yozishga harakat qiling va qaytadan qidirib ko'ring!!!</i>
+    </h4>
+</div>
+{% endif  %}
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Ro'yxatdan o'tish - SignUP | Kinomakon {% endblock %}
+
+{% block content %}
+<nav class="kn-breadcrumb-box mt-5">
+           
+  <div class="kn-breadcrumb mt-5">
+      <a class="" href="{% url 'film:home' %}">Kinomakon</a><span> >> </span>
+      
+      <a class="">Ro'yxatdan o'tish - SignUP</a>
+  </div>
+</nav>
+<style>
+    .form-login-custom p{
+     margin-top:-2rem;
+    }
+   .form-login-custom p label{
+      position:relative;
+      top:1.2rem;
+      left:1.5rem;
+   }
+
+    .form-login-custom p input{
+      display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.6em;
+    border: none;
+    outline: none;
+    background: rgba(19, 19, 19, 0.05);
+    box-shadow: 0 0 10px rgba(0,0,0,0.25);
+    backdrop-filter: blur(20px);
+    border-radius:15px;
+    box-shadow: inset 2px 5px 10px rgb(5, 5, 5);
+
+    /*Inner codes*/
+    background: none;
+    border: none;
+    outline: none;
+    width: 100%;
+    color: #d3d3d3;
+    color: #fff;
+
+    }
+    .form-login-custom{margin:0;}
+
+.button2, button1, a{
+  text-decoration:none;
+}
+
+
+li{
+ font-size:1rem;
+ font-weight:200;
+ color:#ff85a1;
+}
+
+    .helptext{
+     font-size:0.7rem;
+     margin:0;
+     padding:0;
+     letter-spacing:-0.5px;
+    }
+</style>
+<div class="login-form-box">
+  <div class="divcha"><div class="circle-custom"></div>
+    <div class="">
+        <form class="form-login-custom mb-2 "style="margin-top:-3rem; " method="post" action="{% url 'users:signup' %}">{% csrf_token %}
+            <p id="heading" style="width:100%">Ro'yxatdan o'tish</p>
+
+            {{signup_form.as_p}}
+            <button class="button3" type="submit">Ro'yxatdan o'tish</button>
+            <div class="btn">
+
+              <a class="button2 me-1" href="{% url 'film:home' %}">&nbsp;&nbsp;&nbsp;Orqaga&nbsp;&nbsp;&nbsp;</a>
+                <a class="button1"href="{% url 'users:login' %}">Akkauntga kirish</a>
+            </div>
+        </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

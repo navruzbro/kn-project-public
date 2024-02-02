@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Kinomakon haqida{% endblock %}
+
+{% block content %}
+<div class="kn-top-margin">
+
+</div>
+<div class="container-fluid">
+    <div class="blur-box mx-2 mx-sm-3 mx-md-5 px-1 px-md-2 py-3">
+        <div class="" style="text-align:start">
+            <h5>Web sayt haqida</h5>
+            <hr>
+                <p>
+                    <i>
+                        Kinomakon 1.0 versiyada taqdim etildi va men buni yolg'iz holda qurib chiqdim... 2024 6-yanvardan to 2-fevralgacha har kuni 5soat davomida kinomakon loyihasiga vaqt ajratdim.
+                        Kuchli matematik formulalar yordamida Like va Dislike lar soninda tahlil qilib filmga katta platformalar kabi filmlarga foizda reyting berishni qo'shdim (hozirda bu imkoniyat ko'plab o'zbek kino saytlarida yo'q)
+                    </i>
+                </p>
+            <h5>Sizga nimalar bera oladi</h5>
+            <hr>
+            <p><i>
+                Birinchi navbatta filmlarni asabga teguvchi reklamalarsiz tomosha qilishingiz mumkin!<br><br>
+                Yoqmli dizayn<br><br>
+                Katta kino platformalar IMBb, Netflix, KinoPoisk platformalari kabi filmlarni like va dislikelar yordamida filmlar reytingini foizda ko'rsatish logikasi (Ko'plab o'zbek kino platformalarida bu imkoniyat yo'q)<br><br>
+                Filmlaringizni saqlab qo'yib keyinchalik ko'rishingiz mumkin!<br><br>
+                Filmlarni ko'plab kategoriyalar yordamida juda oson saralash imkoniyati (boshqa platformalarda bu imkoniyatlar yo'q yoki tushunarsiz)<br><br>
+                (tavsiyalar tizimi) Filmlarning sanasi reytingi bo'yicha sayt sizga qaysi filmni ko'rishni tavsiya etadi<br><br>
+                To'liq O'zbek tilidagi interfeys. saytga kirganingizda boshqa tilga o'tib qolib jig'ingizga tegmaydi!<br><br>
+                Filmlarni xar xil sifatlarda tomosha qilish va yuklash<br><br>
+                Janr, Kinoolam, Yil, Davlatlar kinolari uchun alohida sahifalar<br><br>
+                Va yana juda ko'plab imkoniyatlar<br><br>
+
+            </i>
+            </p>
+            <hr>
+            <h4 >Kinomakon haqida</h4>
+            <hr>
+            <p><i>Kinomakon 2023-yil boshidan o'z faoliyatini yuritib keladi. Telegramda obunachilar uchun rekalamalarsiz sifatli kontent ulashib keladi va shu paytgacha 20 000 dan ortiq obunachi to'pladi. Endi esa 2024yil boshida o'z web saytini taqdim etdi. Bundan buyog'iga ham o'sishdan to'xatamaymiz auditoriya va reklamalar ko'paysa Film dublyaj tashkil qilish rejamiz ham bor. Albatta siz qadrli foydalanuvchi bizni qo'llab tursangiz. </i></p>
+            <hr>
+            <h6>
+                Agar sizga ham shunday web sayt kerak bo'lsa bizga murojaat qiling! <br>
+                <a href="{% url 'film:ads' %}" class="butn-4 py-1 px-2 m-2">Batafsil</a>
+            </h6>
+            <hr>
+            <p><i>
+                Kamchiliklar Versiya o'zgarishida to'g'irlanib boradi... Biz rivojlanishdan to'xtamaymiz!!!
+            </i></p>
+        </div>
+    </div>
+</div>
+{% endblock content %}

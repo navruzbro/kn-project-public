@@ -1,0 +1,353 @@
+/*SPACE -> &nbsp;*/
+
+/*checkboxda hoverga uxshagan :checked tagi bor*/
+html{
+    width:100vw;
+
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+}
+
+.kn-text{
+    text-decoration: none;
+    color:#ffffff;
+}
+.kn-text-secondary{
+    text-decoration: none;
+    color:#bdbcbc!important;
+}
+.kn-text-link{
+    color:#fff;
+}
+.kn-center{
+    text-align: center;
+    align-items: center;
+
+}
+.kn-text-dark{
+    text-decoration: none;
+    color:#232323;
+}
+.kn-text-white{
+    color: white !important;
+}
+.kn-text-black{
+    text-decoration: none;
+    color:#000!important;
+    font-weight: 600;
+}
+.kn-text-pink{
+    text-decoration:none;
+    color:#784ba0;
+}
+.kn-text-normal{
+    font-size:1.2rem;
+}
+.kn-text-smaller{
+    font-size:0.9rem;
+}
+.kn-text-smaller-in{
+    font-size:0.8rem;
+}
+.kn-text-small{
+    font-size:0.7rem;
+}
+.kn-text-very-small{
+    font-size:0.5rem;
+}
+.kn-text-500{
+    font-weight: 500!important;
+}
+
+.kn-text-a{
+    cursor:pointer;
+}
+.z-index-10{
+    z-index: 10;
+}
+.z-index-20{
+    z-index: 20;
+}
+.blur-box{
+    
+    background: rgba(255,255,255,.05);
+    box-shadow: 0 0 10px rgba(0,0,0,0.25);
+    backdrop-filter: blur(20px);
+    border-radius:10px;
+}
+.blur-box-in{
+    background-color: transparent;
+    border: 2px solid transparent;
+    box-shadow: /*3px 3px 10px rgba(0,0,0,1),
+        -1px -1px 6px rgba(255, 255, 255, 0.4), */
+        inset 3px 3px 10px rgba(0,0,0,1),
+        inset -1px -1px 6px rgba(255, 255, 255, 0.4);
+    border-radius:10px;
+    transition: all 0.2s ease-in-out ;
+    backdrop-filter: blur(20px);
+    height:auto;
+    display:inline-block; 
+}
+/*+ ko'rinishidagi scrolll*/
+button:hover {
+    cursor: crosshair;
+   }
+
+.position-absolute{
+    position: absolute!important;
+}
+/*Buttons*/
+.butn{
+    color:#ffffff;
+    z-index:10;
+    text-decoration: none;
+    background: rgba(255,255,255,.05);
+    box-shadow: 0 0 10px rgba(0,0,0,0.25);
+    backdrop-filter: blur(20px);
+    padding:auto 1rem auto 1rem;
+    border-radius:10px;
+    transition: all 0.2s ease-in-out ;
+}
+.butn-2{
+    display:inline-block;
+    background-color: transparent;
+    border: 2px solid transparent;
+    box-shadow: /*3px 3px 10px rgba(0,0,0,1),
+        -1px -1px 6px rgba(255, 255, 255, 0.4), */
+        inset 3px 3px 10px rgba(0,0,0,1),
+        inset -1px -1px 6px rgba(255, 255, 255, 0.4);
+    border-radius:10px;
+    transition: all 0.2s ease-in-out ;
+    backdrop-filter: blur(20px);
+    padding:auto 1rem auto 1rem;
+    color:#ffffff;
+    text-decoration: none;
+    
+}
+.kn-d-block{
+    display:block!important;
+}
+.butn-3{
+    display:inline-block;
+    background-color: transparent;
+    border: 2px solid transparent;
+    box-shadow: /*3px 3px 10px rgba(0,0,0,1),
+        -1px -1px 6px rgba(255, 255, 255, 0.4), */
+        inset 3px 3px 10px rgba(0,0,0,1),
+        inset -1px -1px 6px rgba(255, 255, 255, 0.4);
+    border-radius:10px;
+    transition: all 0.2s ease-in-out ;
+    backdrop-filter: blur(0.5px);
+    padding:auto 1rem auto 1rem;
+    color:#ffffff;
+    text-decoration: none;
+}
+
+.butn-2-hover:hover,
+.butn-2-hover:active{
+    color:#000;
+    border:2px solid #ffffff;
+    backdrop-filter: blur(200px);
+}
+.kn-btn-close{
+    border:none;
+    color:#fff;
+    transition: all 0.3s;
+    background: none;
+}
+.kn-btn-close:hover{
+    color: #ff3cac;
+}
+.butn-width{
+    width:8rem;
+}
+.butn-width-lg{
+    width:10rem;
+}
+.butn-width-xl{
+    width:12rem;
+}
+.butn-active{
+    color:#784ba0;
+    background: rgba(45, 42, 42, 0.05);
+    backdrop-filter: blur(100px);
+}
+
+.butn:hover{
+    color:#784ba0;
+    background: rgba(45, 42, 42, 0.05);
+    backdrop-filter: blur(100px);
+}
+@media(max-width:768px){
+    .butn{
+        font-size:0.8rem;
+        padding:auto 0.7rem auto 0.7rem;
+    }
+}
+
+@media(max-width:576px){
+    .butn{
+        font-size:0.6rem;
+        padding:auto 0.4rem auto 0.4rem!important;
+    }
+}
+
+/*KINAMKON NAVBARdan uzoqlashtirish*/
+.kn-top-margin-lg{
+    height:8rem;
+    width:100vw;
+    display:block;
+    clear:both;
+    margin-bottom:1rem;
+}
+.kn-top-margin{
+    height:6rem;
+    width:100vw;
+    display:block;
+    clear:both;
+    margin-bottom:1rem;
+}
+.kn-top-margin-sm{
+    height:4rem;
+    width:100vw;
+    display:block;
+    clear:both;
+    margin-bottom:1rem;
+}
+
+
+/*BREAD CRUMB */
+.kn-breadcrumb-box{
+    z-index:8;
+    display: flex;
+    position: relative;
+    justify-content: start;
+    align-items: center;
+}
+.breadcrumb-circle{
+    position:absolute;
+}
+
+.kn-breadcrumb{
+    background: rgba(255,255,255,.05);
+    box-shadow: 0 0 10px rgba(0,0,0,0.25);
+    padding-left:1rem;
+    padding-right:1rem;
+    backdrop-filter: blur(20px);
+    position: relative;
+    border-radius:5px;
+}
+.kn-breadcrumb a{
+    color:#fff;
+    font-family: monospace;
+    transition: all 0.3s ease-in-out;
+    text-decoration: none;
+}
+.kn-breadcrumb a:hover{
+    color:#2b86c5;
+}
+.kn-breadcrumb span{
+    letter-spacing: -3px;
+    font-family: cursive;
+    font-weight: 200;
+    margin:auto 0.5rem;
+}
+@media(max-width:768px){
+  .kn-breadcrumb a{
+    font-size:0.8rem;
+  }
+}
+.blur-box-2{
+    text-decoration: none;
+    color:white;
+    border: none;
+    transition: all 0.5s ease-in-out;
+    outline: none;
+    background-color: transparent;
+    box-shadow: 6px 6px 20px rgba(0,0,0,1),
+    -2px -2px 12px rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(20px);
+}
+/*CIRCLE custom*/
+/*ishlashi uchun parent div position relative bo'lishi kerak*/
+.circle-custom{
+    width: 100px;
+    height: 100px;
+    /*content: "";*/
+    position: absolute;
+    /*background-color: rgb(144, 161, 255);*/
+    background-color: #ff3cac;
+    background-image: linear-gradient(225deg, #ff3cac 0%, #784ba0 50%, #2b86c5 100%);
+    z-index: 2;
+    border-radius: 50%;
+    top:100px;
+    left:30px;
+    transition: all 1s;
+    animation:circle-animation 5s;
+    animation-iteration-count: 100;
+    animation-direction: alternate-reverse;
+  }
+.circle-custom-sm{
+    width: 2rem;
+    height: 2rem;
+    /*content: "";*/
+    position: absolute;
+    /*background-color: rgb(144, 161, 255);*/
+    background-color: #ff3cac;
+    background-image: linear-gradient(225deg, #ff3cac 0%, #784ba0 50%, #2b86c5 100%);
+    z-index: 2;
+    border-radius: 50%;
+    top:100px;
+    left:30px;
+    transition: all 1s;
+    animation:circle-animation-sm 5s;
+    animation-iteration-count: 100;
+    animation-direction: alternate-reverse;
+  }
+
+  @media(max-width:576px){
+    .circle-custom{
+        width:4.5rem;
+        height:4.5rem;
+    }
+  }
+  
+ 
+
+  div:hover .circle-custom,
+  div:hover .circle-custom-sm {
+    animation-play-state: paused;
+  }
+
+  @keyframes circle-animation {
+    0%{
+        
+    }
+    40%{
+        transform:translate(50px, -50px);
+    }
+    100%{
+        transform: translate(-50px, 50px) scale(1.1);
+    }
+  } 
+  
+  @keyframes circle-animation-sm {
+    0%{
+        
+    }
+    40%{
+        transform:translate(5px, -5px);
+    }
+    100%{
+        transform: translate(-5px, 5px) scale(1.1);
+    }
+  }
+  .pt-6{
+    padding-top:6rem!important;
+  }
+  .py-10{
+    padding-top:10rem!important;
+    padding-bottom:10rem!important;
+  }
+  
+  
